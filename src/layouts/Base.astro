@@ -40,6 +40,8 @@ const blocos = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#5C1F2E" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="preload" href="/fonts/Peachi-Bold.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/Peachi-Medium.woff2" as="font" type="font/woff2" crossorigin />
     {blocos.map((b) => <script type="application/ld+json" set:html={JSON.stringify(b)} />)}
