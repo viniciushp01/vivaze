@@ -1,0 +1,102 @@
+// Fotos do site. A chave é o nome do arquivo em src/assets/fotos (igual à página "Imagens" do Figma).
+// alt = descrição da cena; pos = ponto de foco usado no recorte (object-position).
+import type { ImageMetadata } from 'astro';
+
+const arquivos = import.meta.glob<{ default: ImageMetadata }>('../assets/fotos/*.jpg', { eager: true });
+const logosArq = import.meta.glob<{ default: ImageMetadata }>('../assets/logos/*.png', { eager: true });
+const depoArq = import.meta.glob<{ default: ImageMetadata }>('../assets/depoimentos/*.png', { eager: true });
+
+const pega = (mapa: Record<string, { default: ImageMetadata }>, pasta: string, nome: string, ext: string) => {
+  const m = mapa[`../assets/${pasta}/${nome}.${ext}`];
+  if (!m) throw new Error(`Imagem não encontrada: ${pasta}/${nome}.${ext}`);
+  return m.default;
+};
+
+export const foto = (nome: string) => pega(arquivos, 'fotos', nome, 'jpg');
+export const logo = (nome: string) => pega(logosArq, 'logos', nome, 'png');
+export const retrato = (nome: string) => pega(depoArq, 'depoimentos', nome, 'png');
+
+export const alts: Record<string, string> = {
+  L47: 'Três amigas segurando as tirinhas de fotos impressas na hora',
+  L37: 'Cabine Tradicional com cortinas preta e dourada ao lado de uma mesa decorada',
+  'p-vip': 'Cabine VIP com cortina vermelha e estrutura branca',
+  L64: 'Espelho Mágico com tapete vermelho montado em um salão',
+  L139: 'Duas participantes de uma corrida diante do Túnel Infinity',
+  'p-360': 'Plataforma da Cabine 360° cercada por bastões de luz',
+  'p-lambe': 'Família posando diante do Lambe-Lambe Retrô de madeira',
+  v14_25: 'Convidada diante do Totem 2 em 1 em uma festa',
+  L125: 'Convidada posando diante do Totem Foto Lembrança em uma festa junina',
+  L14: 'Participante de um evento mostrando a foto impressa',
+  'p-paparazzi': 'Varal com as fotos impressas dos convidados',
+  b2b: 'Promotora ao lado de um totem personalizado com a marca do cliente',
+  b2c: 'Três formandos segurando as fotos impressas',
+  impacto: 'Mãe e filho abraçados com uma personagem de fada em uma festa infantil',
+  historia: 'Equipe sorrindo ao lado de um totem durante um evento',
+  form: 'Cerimônia de casamento ao ar livre com os convidados assistindo',
+  L41: 'Cabine Tradicional com cortinas preta e pink',
+  L57: 'Convidada entrando na Cabine VIP',
+  'g-espelho-dourado': 'Espelho Mágico com moldura dourada e tapete',
+  L140: 'Participante dentro do Túnel Infinity personalizado para um evento',
+  v1_50: 'Convidadas girando na plataforma 360',
+  L81: 'Câmera de madeira do Lambe-Lambe Retrô em um tripé',
+  L117: 'Totem 2 em 1 com ring light em um evento',
+  L122: 'Totem Foto Lembrança montado em um deck iluminado',
+  L109: 'Grupo de amigos posando ao lado do totem personalizado',
+  L88: 'Duas convidadas diante do varal de fotos em um jardim',
+  hero: 'Três amigas com as tirinhas de fotos da Cabine Tradicional em uma festa',
+  L77: 'Convidadas reunidas colando as fotos no álbum de recados',
+  v12_25: 'Formandas posando dentro da Cabine Tradicional',
+  L72: 'Convidada escrevendo uma mensagem ao lado da foto no álbum',
+  L36: 'Cabine Tradicional com cortina azul montada no salão',
+  L53: 'Convidada posando ao lado da Cabine VIP de cortina vermelha',
+  L55: 'Convidada diante da cortina vermelha da Cabine VIP',
+  L58: 'Cabine VIP com cortina preta e tela externa',
+  L54: 'Fotógrafo registrando a convidada na Cabine VIP',
+  v9_50: 'Grupo de amigos posando diante da cortina vermelha',
+  'g-espelho-familia': 'Família posando no tapete vermelho diante do Espelho Mágico',
+  'p-espelho': 'Convidadas se preparando diante do Espelho Mágico',
+  v5_25: 'Noivos se olhando no Espelho Mágico',
+  v6_25: 'Grupo de amigas fazendo pose no Espelho Mágico',
+  'p-tunel': 'Família posando dentro do Túnel Infinity iluminado',
+  L134: 'Três colegas posando dentro do túnel de LED',
+  L136: 'Túnel Infinity personalizado com a marca do evento',
+  L131: 'Casal posando no túnel de LED',
+  L129: 'Convidada fazendo pose entre os feixes de luz do túnel',
+  v0_50: 'Convidada mandando um beijo na plataforma 360',
+  v3_50: 'Convidada dançando durante a gravação do vídeo 360',
+  v4_25: 'Convidada girando na plataforma com luzes coloridas',
+  v2_25: 'Convidada de vestido rosa na plataforma 360',
+  L80: 'Lambe-Lambe Retrô montado em um salão de festa',
+  L82: 'Convidados ao lado da câmera de madeira',
+  'p-totem-2em1': 'Convidadas tocando a tela do Totem 2 em 1',
+  L115: 'Tirinhas de fotos impressas pelo totem em um casamento',
+  v14_75: 'Convidada de vestido vermelho diante do totem',
+  L116: 'Totem com ring light em um evento',
+  v14_50: 'Convidadas esperando a vez no totem',
+  L119: 'Convidada mostrando a foto impressa ao lado do Totem Foto Lembrança',
+  L123: 'Convidadas tocando a tela do totem',
+  L121: 'Personagem de fada diante do totem em uma festa infantil',
+  L124: 'Fotos impressas com a moldura do evento',
+  L120: 'Totem montado em um cenário de festa junina',
+  L103: 'Dois totens personalizados com a marca do cliente em uma ativação',
+  'g-totem-corrida': 'Corredora mostrando a foto ao lado do totem personalizado',
+  L110: 'Equipe ao lado do totem personalizado em um evento de fim de ano',
+  L107: 'Totem personalizado em uma ativação',
+  L108: 'Totem personalizado com a caixa de acessórios',
+  L97: 'Convidados olhando as fotos no varal em um jardim',
+  L90: 'Convidados escolhendo as fotos no varal',
+  L93: 'Amigas brindando em uma foto personalizada do casamento',
+  L100: 'Fotos impressas em formato polaroid',
+  L98: 'Varal de fotos montado no jardim',
+  L23: 'Promotora ao lado de um totem personalizado em uma ativação de marca',
+  L13: 'Convidadas mostrando as fotos impressas em um evento corporativo',
+  L21: 'Participantes com as fotos impressas em um evento esportivo',
+  'ev-15anos': 'Amigas segurando as tirinhas de fotos em uma festa de 15 anos',
+  L69: 'Menina escrevendo no álbum de recados de um casamento',
+  L11: 'Fotógrafo registrando convidadas com as fotos impressas na mão',
+  'g-15anos': 'Amigas em vestidos de festa segurando as tirinhas de fotos',
+  L24: 'Totem personalizado com a identidade de uma campanha interna',
+  L74: 'Convidada escrevendo uma mensagem no álbum de recados ao lado das fotos',
+};
+
+export const alt = (nome: string) => alts[nome] ?? '';

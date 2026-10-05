@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import Foto from '../components/Foto.astro';
+import { whatsappLink } from '../data/site';
+---
+<Base title="Página não encontrada | Vivaze" noindex>
+  <section class="nf">
+    <div class="nf-text">
+      <p class="nf-code" aria-hidden="true">404</p>
+      <p class="vz-caption c-brand">Página não encontrada</p>
+      <h1 class="vz-display c-brand">Essa página saiu da foto.</h1>
+      <p class="vz-body-lg">O link pode estar errado ou a página mudou de lugar. O resto do site continua aqui: escolha por onde seguir.</p>
+      <div class="nf-actions">
+        <a href="/" class="btn btn-cta btn-lg">Voltar ao início <Icon name="arrow-forward" /></a>
+        <a href="/servicos" class="btn btn-ghost btn-lg">Ver serviços</a>
+      </div>
+      <div class="nf-more">
+        <p class="vz-caption c-muted">Ou vá direto para</p>
+        <div class="nf-links">
+          <a href="/eventos/corporativos" class="link-arrow">Eventos corporativos <Icon name="arrow-forward" size={20} /></a>
+          <a href="/eventos/sociais" class="link-arrow">Eventos sociais <Icon name="arrow-forward" size={20} /></a>
+          <a href="/blog" class="link-arrow">Blog <Icon name="arrow-forward" size={20} /></a>
+          <a href={whatsappLink()} class="link-arrow" target="_blank" rel="noopener">Falar no WhatsApp <Icon name="arrow-forward" size={20} /></a>
+        </div>
+      </div>
+    </div>
+    <div class="nf-photo"><Foto nome="L47" sizes="(min-width: 1024px) 504px, 100vw" /></div>
+  </section>
+</Base>

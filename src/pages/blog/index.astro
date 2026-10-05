@@ -1,0 +1,38 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import PostCard from '../../components/PostCard.astro';
+import { artigos } from '../../data/blog';
+const filtros = [['todos', 'Todos'], ['corporativos', 'Eventos corporativos'], ['sociais', 'Eventos sociais']];
+---
+<Base
+  title="Blog Vivaze: ideias para eventos corporativos e festas"
+  description="Ideias e pesquisas sobre cabine de fotos, ativações de marca e festas, da equipe que registra eventos em Minas há mais de 13 anos."
+>
+  <section class="blog-intro">
+    <h1 class="vz-caption c-brand">Blog Vivaze</h1>
+    <p class="vz-display c-brand">Histórias e ideias sobre momentos que ficam.</p>
+    <p class="vz-sub">O que a gente aprendeu em mais de 13 anos registrando eventos, e o que as pesquisas dizem sobre por que isso importa.</p>
+  </section>
+
+  <section class="blog-list">
+    <div class="blog-bar">
+      <h2 class="vz-caption c-muted">Artigos recentes</h2>
+      <div class="filters" role="group" aria-label="Filtrar artigos" data-filters="#artigos">
+        {filtros.map(([valor, rotulo]) => <button type="button" class="filter" data-filter={valor} aria-pressed={valor === 'todos' ? 'true' : 'false'}>{rotulo}</button>)}
+      </div>
+    </div>
+    <p class="sr-only" aria-live="polite" data-filter-status="#artigos"></p>
+    <div class="posts" id="artigos">
+      {artigos.map((a) => <PostCard artigo={a} nivel="h3" />)}
+    </div>
+  </section>
+
+  <section class="sec sec--soft blog-cta">
+    <div class="sec-head">
+      <p class="vz-caption c-brand">Seu próximo evento</p>
+      <h2 class="vz-h2 c-brand">Vamos pensar juntos a experiência certa?</h2>
+    </div>
+    <a href="/#orcamento" class="btn btn-cta btn-lg btn-block-m">Solicitar orçamento <Icon name="arrow-forward" /></a>
+  </section>
+</Base>

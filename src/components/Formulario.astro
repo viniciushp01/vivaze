@@ -1,0 +1,87 @@
+---
+// Formulário de orçamento. Os "name" seguem o Vivaze CRM (ver README).
+// Nesta prévia o envio é simulado em src/scripts/site.ts.
+import Icon from './Icon.astro';
+import { site, cidades, tiposEvento, tiposComEmpresa, faixasConvidados, canais, whatsappLink } from '../data/site';
+---
+<form class="form" novalidate data-form data-empresa-tipos={tiposComEmpresa.join('|')} aria-label="Pedido de orçamento">
+  <div class="hp" aria-hidden="true"><label for="f-website">Não preencher</label><input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off" /></div>
+
+  <div class="notice full" role="alert" data-notice data-show="false"><Icon name="error" size={20} /><div><strong></strong><span></span></div></div>
+
+  <div class="form-row">
+    <label for="f-nome" class="vz-label">Nome completo<span aria-hidden="true" class="c-brand"> *</span></label>
+    <div class="field"><Icon name="person" size={20} /><input id="f-nome" name="nome" required class="input" type="text" autocomplete="name" placeholder="Como podemos te chamar?" aria-describedby="e-nome" /></div>
+    <p class="field-error" id="e-nome" data-error-for="nome" data-show="false"><Icon name="error" size={16} />Informe seu nome.</p>
+  </div>
+  <div class="form-row">
+    <label for="f-email" class="vz-label">E-mail</label>
+    <div class="field"><Icon name="mail" size={20} /><input id="f-email" name="email" class="input" type="email" autocomplete="email" placeholder="voce@email.com" aria-describedby="e-email" /></div>
+    <p class="field-error" id="e-email" data-error-for="email" data-show="false"><Icon name="error" size={16} />Confira o e-mail.</p>
+  </div>
+  <div class="form-row">
+    <label for="f-tel" class="vz-label">Telefone / WhatsApp<span aria-hidden="true" class="c-brand"> *</span></label>
+    <div class="field"><Icon name="call" size={20} /><input id="f-tel" name="telefone" required maxlength="16" inputmode="tel" class="input" type="tel" autocomplete="tel" placeholder="(31) 90000-0000" aria-describedby="e-tel" /></div>
+    <p class="field-error" id="e-tel" data-error-for="telefone" data-show="false"><Icon name="error" size={16} />Informe um telefone com DDD.</p>
+  </div>
+  <div class="form-pair">
+    <div class="form-row">
+      <label for="f-cidade" class="vz-label">Cidade<span aria-hidden="true" class="c-brand"> *</span></label>
+      <div class="field"><Icon name="location-on" size={20} />
+        <select id="f-cidade" name="cidade_evento" required class="input" aria-describedby="e-cidade"><option value="">Selecione a cidade</option>{cidades.map((c) => <option value={c}>{c}</option>)}</select>
+        <Icon name="chevron-down" size={20} class="chev" />
+      </div>
+      <p class="field-error" id="e-cidade" data-error-for="cidade_evento" data-show="false"><Icon name="error" size={16} />Selecione a cidade do evento.</p>
+    </div>
+    <div class="form-row">
+      <label for="f-data" class="vz-label">Data do evento<span aria-hidden="true" class="c-brand"> *</span></label>
+      <div class="field"><Icon name="calendar-month" size={20} /><input id="f-data" name="data_evento" required class="input" type="text" inputmode="numeric" maxlength="10" placeholder="dd/mm/aaaa" aria-describedby="e-data" /></div>
+      <p class="field-error" id="e-data" data-error-for="data_evento" data-show="false"><Icon name="error" size={16} />Use o formato dd/mm/aaaa.</p>
+    </div>
+  </div>
+  <div class="form-row">
+    <label for="f-tipo" class="vz-label">Tipo de evento</label>
+    <div class="field"><Icon name="edit" size={20} />
+      <select id="f-tipo" name="tipo_evento" class="input"><option value="">Selecione o tipo</option>{tiposEvento.map((t) => <option value={t}>{t}</option>)}</select>
+      <Icon name="chevron-down" size={20} class="chev" />
+    </div>
+  </div>
+  <div class="form-row full" data-empresa hidden>
+    <label for="f-empresa" class="vz-label">Empresa</label>
+    <div class="field"><Icon name="person" size={20} /><input id="f-empresa" name="empresa" class="input" type="text" autocomplete="organization" placeholder="Nome da empresa ou marca" /></div>
+  </div>
+  <div class="form-row">
+    <label for="f-conv" class="vz-label">Nº aproximado de convidados</label>
+    <div class="field"><Icon name="person" size={20} />
+      <select id="f-conv" name="convidados" class="input"><option value="">Selecione</option>{faixasConvidados.map((f) => <option value={f}>{f}</option>)}</select>
+      <Icon name="chevron-down" size={20} class="chev" />
+    </div>
+  </div>
+  <div class="form-row">
+    <label for="f-canal" class="vz-label">Como deseja receber o orçamento?</label>
+    <div class="field"><Icon name="chat" size={20} />
+      <select id="f-canal" name="preferencia_recebimento_orcamento" class="input"><option value="">Selecione</option>{canais.map((c) => <option value={c}>{c}</option>)}</select>
+      <Icon name="chevron-down" size={20} class="chev" />
+    </div>
+  </div>
+  <div class="form-row full">
+    <label for="f-msg" class="vz-label">Mensagem <span style="font-weight: 400;">(opcional)</span></label>
+    <textarea id="f-msg" name="mensagem" class="input" placeholder="Conte um pouco sobre o evento: local, horário, o que você imagina…"></textarea>
+  </div>
+  <label class="check full">
+    <input type="checkbox" name="consentimento" value="1" required />
+    <span class="vz-body-sm">Concordo que a Vivaze use estes dados para responder ao meu pedido de orçamento, conforme a <a href={site.privacidadeUrl}>Política de Privacidade</a>.</span>
+  </label>
+  <button type="submit" class="btn btn-cta btn-lg btn-block full"><span data-label>Solicitar orçamento</span><Icon name="arrow-forward" /></button>
+
+  <div class="form-done full" data-done tabindex="-1" role="status">
+    <span class="done-icon"><Icon name="check-circle" size={32} /></span>
+    <h3 class="vz-h3 c-brand">Pedido enviado!</h3>
+    <p class="vz-body-lg" data-done-text></p>
+    <div class="done-summary"><span class="vz-caption c-muted">Resumo do pedido</span><span class="vz-body" data-done-summary></span></div>
+    <div class="done-actions">
+      <a href={whatsappLink('Olá! Acabei de enviar um pedido de orçamento pelo site da Vivaze.')} class="btn btn-ghost btn-md" target="_blank" rel="noopener"><Icon name="whatsapp" size={20} />Falar no WhatsApp agora</a>
+      <button type="button" class="linklike" data-again>Enviar outro pedido</button>
+    </div>
+  </div>
+</form>

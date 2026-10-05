@@ -1,0 +1,36 @@
+---
+import logoLight from '../assets/vivaze-logo-light.svg';
+import { site } from '../data/site';
+const ano = 2026;
+---
+<footer class="ftr">
+  <div class="ftr-top">
+    <div class="ftr-brand">
+      <img src={logoLight.src} alt="Vivaze" width={logoLight.width} height={logoLight.height} loading="lazy" />
+      <p class="vz-body c-rose">{site.assinatura}</p>
+    </div>
+    <nav class="ftr-col ftr-nav" aria-label="Rodapé">
+      <p class="vz-caption c-rose">Navegação</p>
+      <a href="/">Início</a>
+      <a href="/servicos">Serviços</a>
+      <a href="/eventos/corporativos">Eventos corporativos</a>
+      <a href="/eventos/sociais">Eventos sociais</a>
+      <a href="/blog">Blog</a>
+    </nav>
+    <div class="ftr-col ftr-contato">
+      <p class="vz-caption c-rose">Contato</p>
+      <a href={`tel:${site.telefoneLink}`}>{site.telefone}</a>
+      <a href={`mailto:${site.email}`}>{site.email}</a>
+      <p>{site.regiao}</p>
+      <a href={site.instagramUrl} class="ftr-insta-m">{site.instagramRotulo}</a>
+    </div>
+    <div class="ftr-col ftr-redes">
+      <p class="vz-caption c-rose">Redes</p>
+      <a href={site.instagramUrl}>{site.instagramRotulo}</a>
+    </div>
+  </div>
+  <div class="ftr-bottom">
+    <p class="vz-body-sm c-rose">© {ano} Vivaze. Antes CabinePhoto.</p>
+    <a href={site.privacidadeUrl} class="vz-body-sm">Política de Privacidade</a>
+  </div>
+</footer>

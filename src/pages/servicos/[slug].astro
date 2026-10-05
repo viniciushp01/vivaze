@@ -1,0 +1,96 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Foto from '../../components/Foto.astro';
+import { servicos, servico, type Servico } from '../../data/servicos';
+import { site, whatsappLink } from '../../data/site';
+import { foto } from '../../data/fotos';
+
+export function getStaticPaths() {
+  return servicos.map((s) => ({ params: { slug: s.slug }, props: { s } }));
+}
+const { s } = Astro.props as { s: Servico };
+const url = (p: string) => (Astro.site ? new URL(p, Astro.site).href : p);
+const jsonLd = [
+  {
+    '@context': 'https://schema.org', '@type': 'Service', name: s.nome, serviceType: s.seo.h1,
+    description: s.seo.description, areaServed: 'Belo Horizonte e Região Metropolitana',
+    provider: { '@type': 'LocalBusiness', name: 'Vivaze', telephone: site.telefoneLink },
+    url: url(`/servicos/${s.slug}`),
+  },
+  {
+    '@context': 'https://schema.org', '@type': 'FAQPage',
+    mainEntity: s.faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
+  },
+];
+const msg = `Olá! Vim pelo site da Vivaze e quero saber mais sobre ${s.artigo}.`;
+---
+<Base title={s.seo.title} description={s.seo.description} jsonLd={jsonLd} ogImage={foto(s.hero.foto).src} whatsappMsg={msg}>
+  <section class="svc-hero">
+    <Foto nome={s.hero.foto} pos={s.hero.pos} loading="eager" sizes="100vw" decorativa />
+    <div class="svc-hero-text">
+      <p class="vz-caption c-rose">{s.familia}</p>
+      <!-- h1 = nome do serviço + linha descritiva -->
+      <h1><span class="vz-display">{s.nome}</span><span class="sr-only">: </span><span class="svc-tagline">{s.hero.linha}</span></h1>
+      <div class="svc-hero-actions">
+        <a href="/#orcamento" class="btn btn-cta btn-lg btn-block-m">Solicitar orçamento <Icon name="arrow-forward" /></a>
+        <a href="#galeria" class="link-light">Ver em ação</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec svc-desc">
+    <div class="sec-head">
+      <p class="vz-caption c-brand">Como funciona</p>
+      <h2 class="vz-h2 c-brand">{s.descricao.titulo}</h2>
+    </div>
+    <div class="svc-desc-text">
+      <p class="vz-body-lg">{s.descricao.texto}</p>
+      <ul class="checks">{s.descricao.itens.map((i) => <li class="vz-body"><Icon name="check" size={20} />{i}</li>)}</ul>
+      <a href="/#orcamento" class="btn btn-cta btn-md btn-block-m">Solicitar orçamento</a>
+    </div>
+  </section>
+
+  <section class="sec sec--soft sec--gallery" id="galeria">
+    <div class="sec-head-row">
+      <div class="sec-head">
+        <p class="vz-caption c-brand">Em ação</p>
+        <h2 class="vz-h2 c-brand">{s.galeria.titulo}</h2>
+      </div>
+      <a href={site.instagramUrl} class="link-arrow">Ver mais no Instagram</a>
+    </div>
+    <div class="gallery">
+      {s.galeria.fotos.map((f, i) => <div><Foto nome={f} sizes={i === 0 ? '(min-width: 1024px) 588px, 100vw' : i === 1 ? '(min-width: 1024px) 588px, 100vw' : '(min-width: 1024px) 282px, 50vw'} /></div>)}
+      {s.galeria.fotos.length < 4 && <div class="gallery-ph vz-body-sm">[Foto do serviço em ação — a enviar]</div>}
+    </div>
+  </section>
+
+  <section class="sec" id="perguntas">
+    <div class="split">
+      <div class="split-text">
+        <div class="sec-head">
+          <p class="vz-caption c-brand">Perguntas frequentes</p>
+          <h2 class="vz-h2 c-brand">Antes de contratar {s.artigo}</h2>
+        </div>
+        <p class="vz-body-lg">Toda contratação inclui montagem e desmontagem, um assistente com os convidados e fotos personalizadas. Como cada espaço é diferente, conte como é o local do evento e a gente confirma o que {s.precisa} precisa.</p>
+        <a href={whatsappLink(msg)} class="textlink" target="_blank" rel="noopener">Falar no WhatsApp</a>
+      </div>
+      <div class="rows">
+        {s.faq.map(([q, a]) => (
+          <div><div class="rows-text"><h3 class="vz-h4 c-brand">{q}</h3><p class="vz-body">{a}</p></div></div>
+        ))}
+      </div>
+      <div class="faq-extra">
+        <p class="vz-body c-muted">Atendemos Belo Horizonte, Contagem, Betim, Nova Lima, Lagoa Santa e outras cidades da região metropolitana.</p>
+        <p class="faq-links">Combina com: <a href="/eventos/sociais" class="textlink">Eventos sociais</a> · <a href="/eventos/corporativos" class="textlink">Eventos corporativos</a></p>
+        <p class="faq-links">Veja também: {s.veja.map((slug, i) => <Fragment>{i > 0 && ' · '}<a href={`/servicos/${slug}`} class="textlink">{servico(slug).nome}</a></Fragment>)}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="closing">
+    <h2 class="vz-impact c-light">{s.impacto.frase}</h2>
+    <p class="vz-sub c-rose">{s.impacto.sub}</p>
+    <a href="/#orcamento" class="btn btn-cta btn-lg btn-block-m">Solicitar orçamento <Icon name="arrow-forward" /></a>
+  </section>
+</Base>

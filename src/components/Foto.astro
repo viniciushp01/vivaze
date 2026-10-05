@@ -1,0 +1,11 @@
+---
+// Foto otimizada (WebP, vários tamanhos). "nome" é a chave do arquivo em src/assets/fotos.
+import { Image } from 'astro:assets';
+import { foto, alt as altDe } from '../data/fotos';
+interface Props { nome: string; alt?: string; pos?: string; sizes?: string; widths?: number[]; loading?: 'lazy' | 'eager'; class?: string; decorativa?: boolean }
+const { nome, alt, pos, sizes = '(min-width: 1024px) 50vw, 100vw', widths = [400, 640, 960, 1280, 1600], loading = 'lazy', class: cls, decorativa = false } = Astro.props;
+const src = foto(nome);
+const larguras = widths.filter((w) => w <= src.width);
+if (!larguras.length || larguras[larguras.length - 1] < src.width) larguras.push(src.width);
+---
+<Image src={src} alt={decorativa ? '' : (alt ?? altDe(nome))} widths={larguras} sizes={sizes} format="webp" quality={78} loading={loading} decoding={loading === 'eager' ? 'sync' : 'async'} fetchpriority={loading === 'eager' ? 'high' : undefined} class={cls} style={pos ? `object-position: ${pos}` : undefined} />

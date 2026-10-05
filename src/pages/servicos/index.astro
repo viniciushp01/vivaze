@@ -1,0 +1,89 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Foto from '../../components/Foto.astro';
+import { servicos, filtros } from '../../data/servicos';
+
+const [tradicional, vip, ...demais] = servicos;
+const jsonLd = {
+  '@context': 'https://schema.org', '@type': 'ItemList', name: 'Serviços da Vivaze',
+  itemListElement: servicos.map((s, i) => ({ '@type': 'ListItem', position: i + 1, name: s.nome, url: Astro.site ? new URL(`/servicos/${s.slug}`, Astro.site).href : `/servicos/${s.slug}` })),
+};
+---
+<Base
+  title="Cabines de fotos, totens e plataforma 360 em BH | Vivaze"
+  description="Dez formatos para o seu evento em BH: cabine de fotos, espelho mágico, totem fotográfico, plataforma 360, túnel de LED e fotógrafo com varal de fotos."
+  jsonLd={jsonLd}
+>
+  <section class="intro">
+    <div class="intro-row">
+      <div>
+        <h1 class="vz-h1 c-brand">Cabines de fotos, totens e outras experiências para o seu evento</h1>
+        <p class="vz-sub">Cabine, totem, espelho, plataforma 360, túnel de luz ou um fotógrafo entre os convidados. Todos com montagem, assistente e fotos personalizadas.</p>
+      </div>
+      <a href="/#orcamento" class="btn btn-ghost btn-md">Me ajude a escolher</a>
+    </div>
+    <div class="filters" role="group" aria-label="Filtrar por família" data-filters="#servicos-lista">
+      {filtros.map(([valor, rotulo]) => <button type="button" class="filter" data-filter={valor} aria-pressed={valor === 'todos' ? 'true' : 'false'}>{rotulo}</button>)}
+    </div>
+    <p class="sr-only" aria-live="polite" data-filter-status="#servicos-lista"></p>
+  </section>
+
+  <section class="featured" data-filter-scope="#servicos-lista" data-hide-when-filtered>
+    <article class="feature" data-cat={tradicional.filtro}>
+      <div class="feature-photo">
+        <Foto nome={tradicional.lista.foto} pos={tradicional.lista.pos} loading="eager" sizes="(min-width: 1024px) 700px, 100vw" />
+        <span class="tag tag--photo">A mais escolhida</span>
+      </div>
+      <div class="feature-body">
+        <p class="vz-caption c-brand">{tradicional.familia}</p>
+        <h2 class="vz-h2 c-brand">{tradicional.nome}</h2>
+        <p class="vz-body-lg">{tradicional.lista.texto}</p>
+        <div class="chips">{tradicional.lista.chips?.map((c) => <span class="chip chip--solid">{c}</span>)}</div>
+        <div class="feature-actions">
+          <a href={`/servicos/${tradicional.slug}`} class="btn btn-cta btn-md">Conhecer a cabine</a>
+          <a href="/#orcamento" class="link-arrow">Solicitar orçamento</a>
+        </div>
+      </div>
+    </article>
+    <article class="feature feature--brand" data-cat={vip.filtro}>
+      <div class="feature-photo"><Foto nome={vip.lista.foto} pos={vip.lista.pos} sizes="(min-width: 1024px) 700px, 100vw" /></div>
+      <div class="feature-body">
+        <p class="vz-caption c-rose">{vip.familia}</p>
+        <h2 class="vz-h2 c-light">{vip.nome}</h2>
+        <p class="vz-body-lg c-light">{vip.lista.texto}</p>
+        <div class="chips">{vip.lista.chips?.map((c) => <span class="chip chip--solid">{c}</span>)}</div>
+        <div class="feature-actions">
+          <a href={`/servicos/${vip.slug}`} class="btn btn-cta btn-md">Conhecer a cabine</a>
+          <a href="/#orcamento" class="link-arrow">Solicitar orçamento</a>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <section class="sec sec--line" data-hide-when-filtered>
+    <div class="sec-head" data-only-all>
+      <p class="vz-caption c-brand">Todas as experiências</p>
+      <h2 class="vz-h2 c-brand">Conheça os outros oito formatos</h2>
+    </div>
+    <div class="svc-grid" id="servicos-lista">
+      {demais.map((s) => (
+        <a href={`/servicos/${s.slug}`} class="svc-card" data-cat={s.filtro}>
+          <Foto nome={s.lista.foto} pos={s.lista.pos} sizes="(min-width: 1024px) 384px, 100vw" widths={[400, 640, 800, 1200]} />
+          <div class="svc-card-body">
+            <p class="vz-caption c-muted">{s.familia}</p>
+            <h3 class="vz-h4 c-brand">{s.nomeLista}</h3>
+            <p class="vz-body">{s.lista.texto}</p>
+            <span class="link-arrow">Ver detalhes <Icon name="arrow-forward" size={20} /></span>
+          </div>
+        </a>
+      ))}
+      <div class="help-card">
+        <h3 class="vz-h3 c-light">Ainda em dúvida sobre qual escolher?</h3>
+        <p class="vz-body-lg c-rose">Fale com a gente. Você conta como vai ser o evento e a gente indica o que combina.</p>
+        <a href="/#orcamento" class="btn btn-cta btn-md">Falar com a Vivaze</a>
+      </div>
+    </div>
+    <p class="svc-note c-muted">Todas as experiências incluem montagem e desmontagem, um assistente cuidando dos convidados e personalização das fotos.</p>
+  </section>
+</Base>

@@ -1,0 +1,52 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Foto from '../../components/Foto.astro';
+import PostCard from '../../components/PostCard.astro';
+import { artigos, type Artigo } from '../../data/blog';
+import { foto } from '../../data/fotos';
+
+export function getStaticPaths() {
+  return artigos.map((a) => ({ params: { slug: a.slug }, props: { a } }));
+}
+const { a } = Astro.props as { a: Artigo };
+const { Content } = a;
+const outro = artigos.find((x) => x.slug !== a.slug);
+const jsonLd = {
+  '@context': 'https://schema.org', '@type': 'Article', headline: a.titulo, description: a.descricao,
+  datePublished: a.data, author: { '@type': 'Organization', name: a.autor }, publisher: { '@type': 'Organization', name: 'Vivaze' },
+  articleSection: a.categoria,
+};
+---
+<Base title={a.tituloSeo} description={a.descricao} jsonLd={jsonLd} ogImage={foto(a.capa).src}>
+  <section class="art-head">
+    <a href="/blog" class="link-arrow"><Icon name="arrow-back" size={20} />Voltar ao blog</a>
+    <span class="tag">{a.categoria}</span>
+    <h1 class="vz-h1 c-brand">{a.titulo}</h1>
+    <p class="vz-body c-muted">Por {a.autor} · <time datetime={a.data}>{a.dataRotulo}</time> · {a.leitura}</p>
+  </section>
+  <div class="art-cover"><Foto nome={a.capa} loading="eager" sizes="(min-width: 1264px) 1200px, 100vw" /></div>
+
+  <article class="art">
+    <Content />
+    <div class="art-cta">
+      <h2>{a.cta.titulo}</h2>
+      <p>{a.cta.texto}</p>
+      <div class="art-cta-actions">
+        <a href="/#orcamento" class="btn btn-cta btn-md">Solicitar orçamento</a>
+        <a href={a.cta.link} class="link-light">{a.cta.linkRotulo}</a>
+      </div>
+    </div>
+    <div class="art-sources">
+      <p class="vz-caption c-muted">Fontes</p>
+      <ol>{a.fontes.map((f) => <li>{f}</li>)}</ol>
+    </div>
+  </article>
+
+  {outro && (
+    <section class="art-more">
+      <p class="vz-caption c-brand">Leia também</p>
+      <PostCard artigo={outro} linha nivel="h2" mostrarData={false} />
+    </section>
+  )}
+</Base>

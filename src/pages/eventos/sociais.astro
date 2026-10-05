@@ -1,0 +1,87 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Foto from '../../components/Foto.astro';
+import FechamentoEvento from '../../components/FechamentoEvento.astro';
+import { servico } from '../../data/servicos';
+import { retrato } from '../../data/fotos';
+
+const fotos = [['ev-15anos', '15 anos'], ['b2c', 'Formatura'], ['L69', 'Casamento']];
+const festas = [
+  { titulo: 'Casamento', texto: 'O dia em que duas famílias viram uma. Cada convidado leva um pedaço dele para casa.', combinam: ['espelho-magico', 'cabine-vip'] },
+  { titulo: '15 anos', texto: 'A noite em que ela é a estrela, e as amigas também.', combinam: ['cabine-tradicional', 'tunel-infinity'] },
+  { titulo: 'Formatura', texto: 'O fim de um ciclo celebrado com quem esteve junto até aqui.', combinam: ['cabine-360', 'paparazzi-varal'] },
+  { titulo: 'Aniversário e festa infantil', texto: 'A família reunida, das crianças aos avós, na mesma foto.', combinam: ['lambe-lambe-retro', 'totem-foto-divertida'] },
+  { titulo: 'Chá de revelação', texto: 'A surpresa registrada no rosto de quem mais importa.', combinam: ['totem-2-em-1'] },
+];
+const vozes = [
+  { nome: 'Francielly Aquino', foto: 'testimonial_francielly', contexto: 'Casamento', texto: 'Vocês registraram momentos divertidos, espontâneos e cheios de sorrisos, criando lembranças únicas não só para nós, mas para todos os nossos convidados.' },
+  { nome: 'Walter Junior', foto: 'testimonial_walter', contexto: '', texto: 'Tivemos que ajustar o local da instalação por causa da chuva que nos surpreendeu, e no final foi tudo perfeito. As meninas curtiram e as crianças também.' },
+  { nome: 'Daniela De Fatima', foto: 'testimonial_daniela_de_fatima', contexto: '', texto: 'Foi maravilhoso. Guardamos momentos que o tempo não vai apagar! Você foi atencioso do primeiro contato até o pós-evento.' },
+];
+---
+<Base
+  title="Cabine de fotos para casamento, 15 anos e formatura | Vivaze"
+  description="Cabine de fotos, espelho mágico e plataforma 360 para casamentos, festas de 15 anos, formaturas e aniversários em BH e região. Peça seu orçamento."
+  whatsappMsg="Olá! Vim pelo site da Vivaze e quero um orçamento para a minha festa."
+>
+  <section class="ev-hero">
+    <div class="ev-hero-text">
+      <h1 class="vz-caption c-brand">Cabine de fotos para casamentos, 15 anos, formaturas e aniversários</h1>
+      <p class="vz-display c-brand">O seu grande dia, lembrado do jeito que foi.</p>
+      <p class="vz-sub">Cabine de fotos, espelho mágico e plataforma 360 para casamentos, 15 anos, formaturas, aniversários e chás de revelação em BH e região. Você aproveita a festa e a gente cuida dos convidados.</p>
+      <div class="ev-hero-actions">
+        <a href="/#orcamento" class="btn btn-cta btn-lg btn-block-m">Solicitar orçamento <Icon name="arrow-forward" /></a>
+        <a href="#depoimentos" class="textlink">Ver depoimentos</a>
+      </div>
+    </div>
+    <div class="triptych">
+      {fotos.map(([f, legenda], i) => (
+        <figure><Foto nome={f} loading={i === 0 ? 'eager' : 'lazy'} sizes="(min-width: 1024px) 480px, 280px" widths={[400, 560, 960]} /><figcaption class="vz-caption c-muted">{legenda}</figcaption></figure>
+      ))}
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head">
+      <p class="vz-caption c-brand">Para cada tipo de festa</p>
+      <h2 class="vz-h2 c-brand">Qual cabine combina com a sua festa</h2>
+    </div>
+    <ul class="marks">
+      {festas.map((f) => (
+        <li class="mark">
+          <h3 class="vz-h3 c-brand">{f.titulo}</h3>
+          <p class="vz-body-lg">{f.texto}</p>
+          <p class="vz-body-sm c-muted">{f.combinam.map((slug, i) => <Fragment>{i > 0 && ' · '}<a href={`/servicos/${slug}`} class="textlink">{servico(slug).nome}</a></Fragment>)}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="sec sec--voices" id="depoimentos">
+    <div class="sec-head sec-head--center">
+      <p class="vz-caption c-brand">Como as pessoas se sentiram</p>
+      <h2 class="vz-h2 c-brand">O que fica depois que a festa acaba</h2>
+    </div>
+    <div class="voices">
+      {vozes.map((v) => (
+        <figure class="voice">
+          <blockquote class="vz-h4">“{v.texto}”</blockquote>
+          <figcaption class="cite">
+            <Image src={retrato(v.foto)} alt="" width={96} height={96} format="webp" loading="lazy" />
+            <span class="cite-text"><span class="vz-label c-brand">{v.nome}</span>{v.contexto && <span class="vz-body-sm c-muted">{v.contexto}</span>}</span>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </section>
+
+  <FechamentoEvento
+    legenda="O seu momento"
+    titulo="Vamos cuidar do seu grande dia?"
+    texto="Conte a data, o local e o tipo de celebração. A gente responde rápido e te ajuda a escolher a experiência certa."
+    cruzado="Organizando um evento para a sua empresa?" cruzadoLink="/eventos/corporativos" cruzadoRotulo="Ver eventos corporativos"
+    msg="Olá! Vim pelo site da Vivaze e quero um orçamento para a minha festa."
+  />
+</Base>

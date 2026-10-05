@@ -1,0 +1,84 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Foto from '../../components/Foto.astro';
+import Logos from '../../components/Logos.astro';
+import FechamentoEvento from '../../components/FechamentoEvento.astro';
+import { servico } from '../../data/servicos';
+
+const fotos = [['L23', 'Ativação de marca'], ['L13', 'Evento corporativo'], ['L21', 'Evento esportivo']];
+const formatos = [
+  { n: '01', titulo: 'Ativações de marca', texto: 'Lançamentos, shoppings e pontos de venda. A foto sai com a identidade da sua marca e vai embora na mão do seu público.', combinam: ['totem-foto-divertida', 'cabine-360', 'espelho-magico'] },
+  { n: '02', titulo: 'Eventos internos', texto: 'Confraternizações, festas de fim de ano e convenções. Um momento para a equipe se ver junta e levar isso para casa.', combinam: ['cabine-tradicional', 'cabine-vip', 'paparazzi-varal'] },
+  { n: '03', titulo: 'Feiras e eventos esportivos', texto: 'Estandes e provas com muita gente passando. Estrutura compacta e fotos impressas em poucos segundos.', combinam: ['totem-foto-lembranca', 'totem-2-em-1'] },
+];
+const incluido = [
+  ['Foto com a identidade da marca', 'Moldura, cores e logo do seu evento em cada foto impressa e digital.'],
+  ['Assistente dedicado', 'Uma pessoa da nossa equipe orienta e cuida de cada convidado durante todo o evento.'],
+  ['Montagem e desmontagem', 'Chegamos antes, deixamos tudo pronto e saímos sem que ninguém perceba.'],
+  ['Fotos por link e QR Code', 'Todo mundo revê, baixa e compartilha as fotos, ainda no evento ou depois.'],
+];
+---
+<Base
+  title="Cabine de fotos para eventos corporativos em BH | Vivaze"
+  description="Cabine de fotos, totem e plataforma 360 com a identidade da sua marca para ativações, confraternizações e feiras em BH. Montagem e assistente inclusos."
+  whatsappMsg="Olá! Vim pelo site da Vivaze e quero um orçamento para um evento corporativo."
+>
+  <section class="ev-hero">
+    <div class="ev-hero-text">
+      <h1 class="vz-caption c-brand">Cabine de fotos e totem para eventos corporativos e ativações de marca</h1>
+      <p class="vz-display c-brand">Sua marca lembrada pelo cuidado com cada pessoa.</p>
+      <p class="vz-sub">Cabine de fotos, totem e plataforma 360 para ativações, confraternizações, feiras e convenções em BH e região. A foto sai com a identidade da sua marca e a nossa equipe cuida dos convidados.</p>
+      <div class="ev-hero-actions">
+        <a href="/#orcamento" class="btn btn-cta btn-lg btn-block-m">Solicitar orçamento <Icon name="arrow-forward" /></a>
+        <a href="#incluido" class="textlink">Ver o que está incluído</a>
+      </div>
+    </div>
+    <div class="triptych">
+      {fotos.map(([f, legenda], i) => (
+        <figure><Foto nome={f} loading={i === 0 ? 'eager' : 'lazy'} sizes="(min-width: 1024px) 480px, 280px" widths={[400, 560, 960]} /><figcaption class="vz-caption c-muted">{legenda}</figcaption></figure>
+      ))}
+    </div>
+  </section>
+
+  <section class="sec sec--line sec--formats">
+    <div class="sec-head">
+      <p class="vz-caption c-brand">Onde a gente entra</p>
+      <h2 class="vz-h2 c-brand">Três formatos, o mesmo cuidado</h2>
+    </div>
+    <div class="formats">
+      {formatos.map((f) => (
+        <div class="format">
+          <span class="format-num" aria-hidden="true">{f.n}</span>
+          <h3 class="vz-h3 c-brand">{f.titulo}</h3>
+          <p class="vz-body-lg">{f.texto}</p>
+          <p class="vz-body-sm c-muted">Experiências que combinam:<br />{f.combinam.map((slug, i) => <Fragment>{i > 0 && ' · '}<a href={`/servicos/${slug}`} class="textlink">{servico(slug).nome}</a></Fragment>)}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="sec sec--line sec--included" id="incluido">
+    <div class="split">
+      <div class="split-text">
+        <div class="sec-head">
+          <p class="vz-caption c-brand">O que sua marca recebe</p>
+          <h2 class="vz-h2 c-brand">O que está incluído em todo evento</h2>
+        </div>
+        <p class="vz-body-lg">Cuidamos da operação do começo ao fim para que a sua equipe esteja livre para receber os convidados.</p>
+      </div>
+      <ul class="rows">
+        {incluido.map(([t, d]) => <li><Icon name="check" /><span class="rows-text"><span class="vz-h4 c-brand">{t}</span><span class="vz-body">{d}</span></span></li>)}
+      </ul>
+    </div>
+    <Logos modo="grade" />
+  </section>
+
+  <FechamentoEvento
+    legenda="Próximo evento"
+    titulo="Vamos pensar a experiência da sua marca juntos?"
+    texto="Conte o formato, a data e o público. A gente responde rápido, com uma proposta pensada para o seu evento."
+    cruzado="Organizando uma celebração pessoal?" cruzadoLink="/eventos/sociais" cruzadoRotulo="Ver eventos sociais"
+    msg="Olá! Vim pelo site da Vivaze e quero um orçamento para um evento corporativo."
+  />
+</Base>

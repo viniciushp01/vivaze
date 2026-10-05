@@ -1,0 +1,28 @@
+---
+import Icon from './Icon.astro';
+import logo from '../assets/vivaze-logo.svg';
+import { site, whatsappLink } from '../data/site';
+---
+<div class="menu-m" id="menu-mobile" role="dialog" aria-modal="true" aria-label="Menu" data-open="false">
+  <div class="menu-m-top">
+    <a href="/" aria-label="Vivaze — página inicial"><img src={logo.src} alt="Vivaze" width={logo.width} height={logo.height} /></a>
+    <button type="button" class="burger" aria-label="Fechar menu" data-menu-close><Icon name="close" /></button>
+  </div>
+  <nav aria-label="Principal">
+    <a href="/" class="m-navlink">Início</a>
+    <a href="/servicos" class="m-navlink">Serviços</a>
+    <div class="m-navgroup">
+      <span class="m-navlink">Eventos</span>
+      <div>
+        <a href="/eventos/corporativos" class="m-sublink"><span class="dd-title">Eventos corporativos</span><span class="vz-body-sm c-muted">Ativações de marca, confraternizações, feiras e convenções</span></a>
+        <a href="/eventos/sociais" class="m-sublink"><span class="dd-title">Eventos sociais</span><span class="vz-body-sm c-muted">Casamentos, 15 anos, formaturas e aniversários</span></a>
+      </div>
+    </div>
+    <a href="/blog" class="m-navlink">Blog</a>
+  </nav>
+  <div class="menu-m-cta">
+    <a href="/#orcamento" class="btn btn-cta btn-lg btn-block" data-menu-close>Solicitar orçamento <Icon name="arrow-forward" /></a>
+    <a href={whatsappLink()} class="btn btn-ghost btn-lg btn-block" target="_blank" rel="noopener"><Icon name="whatsapp" />Falar no WhatsApp</a>
+    <p class="vz-body-sm c-muted">{site.telefone} · {site.email}</p>
+  </div>
+</div>

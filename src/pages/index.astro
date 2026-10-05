@@ -1,0 +1,168 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import Foto from '../components/Foto.astro';
+import Depoimentos from '../components/Depoimentos.astro';
+import Logos from '../components/Logos.astro';
+import Formulario from '../components/Formulario.astro';
+import { servicos } from '../data/servicos';
+import { site } from '../data/site';
+
+const [tradicional, ...demais] = servicos;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'Vivaze',
+  alternateName: 'CabinePhoto',
+  description: 'Cabine de fotos, totem fotográfico, plataforma 360 e fotógrafo para eventos em Belo Horizonte e região.',
+  telephone: site.telefoneLink,
+  email: site.email,
+  areaServed: 'Belo Horizonte e Região Metropolitana',
+  address: { '@type': 'PostalAddress', addressLocality: 'Belo Horizonte', addressRegion: 'MG', addressCountry: 'BR' },
+};
+---
+<Base
+  title="Cabine de fotos e totem para eventos em BH | Vivaze"
+  description="Aluguel de cabine de fotos, totem fotográfico, plataforma 360 e fotógrafo para casamentos, formaturas, 15 anos e eventos corporativos em BH e região."
+  jsonLd={jsonLd}
+>
+  <!-- HERO: a legenda é o h1 da página; a frase de marca é parágrafo -->
+  <section class="hero">
+    <div class="hero-photo"><Foto nome="L47" loading="eager" sizes="(min-width: 1024px) 42vw, 100vw" /></div>
+    <div class="hero-text">
+      <h1 class="vz-caption">Cabine de fotos, totem e vídeo 360 para eventos em BH e região</h1>
+      <p class="vz-display">O momento é seu. A gente cuida de registrar.</p>
+      <p class="vz-sub">Há mais de 13 anos a gente leva cabine de fotos, totem e fotógrafo para casamentos, formaturas, festas de 15 anos e eventos de empresa em Minas Gerais.</p>
+      <div class="hero-actions">
+        <a href="#orcamento" class="btn btn-cta btn-lg btn-block-m">Solicitar orçamento <Icon name="arrow-forward" /></a>
+        <a href="/servicos" class="link-light">Conheça os serviços</a>
+      </div>
+      <p class="vz-body-sm hero-note">Antes CabinePhoto. Agora, Vivaze.</p>
+    </div>
+  </section>
+
+  <!-- SERVIÇOS -->
+  <section class="sec" id="servicos">
+    <div class="sec-head-row">
+      <div class="sec-head">
+        <p class="vz-caption c-brand">Serviços</p>
+        <h2 class="vz-h2 c-brand">Cabines, totens e outras formas de registrar o seu evento</h2>
+      </div>
+      <a href="/servicos" class="link-arrow only-d">Ver todos os serviços <Icon name="arrow-forward" size={20} /></a>
+    </div>
+    <div class="bento">
+      <a href={`/servicos/${tradicional.slug}`} class="tile bento-lead">
+        <Foto nome={tradicional.home.foto} pos={tradicional.home.pos} sizes="(min-width: 1024px) 600px, 100vw" />
+        <span class="tag tag--photo">{tradicional.familia}</span>
+        <div class="tile-body"><h3 class="tile-title">{tradicional.nomeLista}</h3><span class="vz-body-sm tile-desc">{tradicional.home.frase}</span></div>
+      </a>
+      <div class="scroller bento-rest">
+        {demais.map((s) => (
+          <a href={`/servicos/${s.slug}`} class:list={['tile', s.slug === 'paparazzi-varal' && 'tile--wide']}>
+            <Foto nome={s.home.foto} pos={s.home.pos} sizes="(min-width: 1024px) 300px, 220px" widths={[300, 440, 600, 900]} />
+            <span class="tag tag--photo">{s.familia}</span>
+            <div class="tile-body"><h3 class="tile-title">{s.nomeLista}</h3><span class="vz-body-sm">{s.home.frase}</span></div>
+          </a>
+        ))}
+      </div>
+      <p class="vz-body-sm c-muted bento-hint only-m">Arraste para ver as outras 9 experiências</p>
+      <div class="cta-block">
+        <h3 class="vz-h3 c-light">Ainda em dúvida sobre qual escolher?</h3>
+        <p class="vz-body c-rose">Fale com a gente. Você conta como vai ser o evento e a gente indica o que combina.</p>
+        <a href="#orcamento" class="btn btn-cta btn-md">Falar com a Vivaze</a>
+      </div>
+    </div>
+    <a href="/servicos" class="link-arrow only-m">Ver todos os serviços <Icon name="arrow-forward" size={20} /></a>
+  </section>
+
+  <!-- PARA QUEM É -->
+  <section class="sec sec--soft">
+    <div class="sec-head">
+      <p class="vz-caption c-brand">Para quem é</p>
+      <h2 class="vz-h2 c-brand">Para a sua empresa ou para a sua festa</h2>
+    </div>
+    <div class="audience-grid">
+      <article class="audience">
+        <Foto nome="b2b" pos="center 35%" sizes="(min-width: 1024px) 588px, 100vw" />
+        <div class="audience-body">
+          <p class="vz-caption c-brand">Para sua marca</p>
+          <h3 class="vz-h3 c-brand">Ativações que fazem o seu público se sentir importante</h3>
+          <p class="vz-body">Eventos corporativos, feiras e ações de marketing. Cada pessoa sai com uma foto que leva o nome da sua marca e lembra de quem cuidou bem dela.</p>
+          <div class="chips"><span class="chip">Ativação de marca</span><span class="chip">Evento corporativo</span><span class="chip">Feira</span><span class="chip">Evento esportivo</span></div>
+          <a href="/eventos/corporativos" class="link-arrow">Ver eventos corporativos <Icon name="arrow-forward" size={20} /></a>
+        </div>
+      </article>
+      <article class="audience">
+        <Foto nome="b2c" pos="center 25%" sizes="(min-width: 1024px) 588px, 100vw" />
+        <div class="audience-body">
+          <p class="vz-caption c-brand">Para você</p>
+          <h3 class="vz-h3 c-brand">As festas que você vai querer rever</h3>
+          <p class="vz-body">Formatura, 15 anos, casamento. Você aproveita a festa e a gente cuida para que nenhum convidado vá embora sem foto.</p>
+          <div class="chips"><span class="chip">Formatura</span><span class="chip">15 anos</span><span class="chip">Casamento</span><span class="chip">Aniversário</span><span class="chip">Chá de revelação</span></div>
+          <a href="/eventos/sociais" class="link-arrow">Ver eventos sociais <Icon name="arrow-forward" size={20} /></a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- FRASE DE IMPACTO -->
+  <section class="impact">
+    <div class="impact-photo"><Foto nome="impacto" pos="30% center" /></div>
+    <div class="impact-text">
+      <h2 class="vz-impact c-light">Você merece ser lembrado assim.</h2>
+      <p class="vz-body-lg c-rose">A gente não cria o seu momento. Só presta atenção nele e guarda em foto, para você se ver daqui a uns anos do jeito que foi.</p>
+    </div>
+  </section>
+
+  <!-- PROVA SOCIAL -->
+  <section class="sec">
+    <Depoimentos legenda="Quem já contratou" titulo="O que os clientes contam" />
+    <div class="stats">
+      <div class="stat"><p class="stat-num">+13</p><p class="stat-label">anos registrando momentos</p></div>
+      <div class="stat"><p class="stat-num">+1.000</p><p class="stat-label">clientes atendidos</p></div>
+      <div class="stat"><p class="stat-num">+150 mil</p><p class="stat-label">fotos entregues</p></div>
+    </div>
+    <Logos modo="faixa" />
+  </section>
+
+  <!-- HISTÓRIA + COMO FUNCIONA -->
+  <section class="sec sec--soft sec--story">
+    <div class="story">
+      <Foto nome="historia" sizes="(min-width: 1024px) 486px, 100vw" />
+      <div class="story-text">
+        <div class="sec-head">
+          <p class="vz-caption c-brand">Nossa história</p>
+          <h2 class="vz-h2 c-brand">Mais de 13 anos de cabine de fotos em Minas</h2>
+        </div>
+        <p class="vz-body-lg">Começamos como CabinePhoto, cuidando de festas, formaturas e eventos corporativos por toda Minas Gerais.</p>
+        <p class="vz-body-lg">Hoje essa história ganha um novo nome, Vivaze, mas o motivo de tudo continua o mesmo: fazer cada pessoa se sentir importante.</p>
+      </div>
+    </div>
+    <div class="how">
+      <h2 class="vz-h2 c-brand">Como funciona</h2>
+      <ol class="steps">
+        <li class="step"><span class="step-num">01</span><div class="step-text"><h3 class="vz-h4">Conte sobre o seu evento</h3><p class="vz-body">Preencha o formulário ou chame no WhatsApp. A gente responde rápido, do jeito que você preferir.</p></div></li>
+        <li class="step"><span class="step-num">02</span><div class="step-text"><h3 class="vz-h4">Escolha a experiência</h3><p class="vz-body">A gente indica a cabine ou o totem que combina com o espaço, o número de convidados e o estilo da festa.</p></div></li>
+        <li class="step"><span class="step-num">03</span><div class="step-text"><h3 class="vz-h4">Viva o momento</h3><p class="vz-body">A gente monta tudo, um assistente cuida dos convidados e você recebe o link com todas as fotos.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ORÇAMENTO -->
+  <section class="sec sec--form" id="orcamento">
+    <div class="form-intro">
+      <div class="sec-head">
+        <p class="vz-caption c-brand">Orçamento</p>
+        <h2 class="vz-h2 c-brand">Peça seu orçamento</h2>
+      </div>
+      <p class="vz-body-lg">Você escolhe como quer receber a resposta: ligação, WhatsApp ou e-mail.</p>
+      <ul class="form-contacts">
+        <li><Icon name="call" /><a href={`tel:${site.telefoneLink}`} class="vz-body">{site.telefone}</a></li>
+        <li><Icon name="mail" /><a href={`mailto:${site.email}`} class="vz-body">{site.email}</a></li>
+        <li><Icon name="location-on" /><span class="vz-body">{site.regiao}</span></li>
+      </ul>
+      <Foto nome="form" class="form-photo" sizes="395px" widths={[400, 750]} />
+    </div>
+    <Formulario />
+  </section>
+</Base>

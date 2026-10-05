@@ -1,0 +1,37 @@
+---
+// Carrossel de depoimentos: 3 por vez no desktop (setas), rolagem com o dedo no mobile.
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import { depoimentos } from '../data/site';
+import { retrato } from '../data/fotos';
+interface Props { legenda: string; titulo: string }
+const { legenda, titulo } = Astro.props;
+---
+<div data-carousel style="display: contents;">
+  <div class="sec-head-row">
+    <div class="sec-head">
+      <p class="vz-caption c-brand">{legenda}</p>
+      <h2 class="vz-h2 c-brand">{titulo}</h2>
+    </div>
+    <div class="carousel-ctrl">
+      <span class="vz-body-sm c-muted" aria-live="polite" data-counter>1–3 de {depoimentos.length}</span>
+      <button type="button" class="round" aria-label="Depoimentos anteriores" data-prev><Icon name="chevron-left" /></button>
+      <button type="button" class="round" aria-label="Próximos depoimentos" data-next><Icon name="chevron-right" /></button>
+    </div>
+  </div>
+  <div class="carousel-view">
+    <div class="scroller carousel-track" data-track>
+      {depoimentos.map((d) => (
+        <figure class="card quote">
+          <span class="quote-mark" aria-hidden="true">“</span>
+          <blockquote class="vz-body">{d.texto}</blockquote>
+          <figcaption>
+            <Image src={retrato(d.foto)} alt="" width={96} height={96} format="webp" loading="lazy" />
+            <span class="cite-text"><span class="vz-label c-brand">{d.nome}</span>{d.contexto && <span class="vz-body-sm c-muted">{d.contexto}</span>}</span>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+  <p class="vz-body-sm c-muted carousel-hint">Arraste para ver mais · {depoimentos.length} depoimentos</p>
+</div>

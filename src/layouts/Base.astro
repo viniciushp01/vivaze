@@ -1,0 +1,62 @@
+---
+import '@fontsource/poppins/400.css';
+import '@fontsource/poppins/500.css';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import MenuMobile from '../components/MenuMobile.astro';
+import Icon from '../components/Icon.astro';
+import { whatsappLink } from '../data/site';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  jsonLd?: object | object[];
+  noindex?: boolean;
+  whatsappMsg?: string;
+}
+const { title, description, ogImage, jsonLd, noindex = false, whatsappMsg } = Astro.props;
+// Enquanto PUBLIC_INDEXAR não for "1", o site inteiro sai com noindex (prévia para o cliente).
+const indexar = import.meta.env.PUBLIC_INDEXAR === '1' && !noindex;
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
+const blocos = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+---
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <meta name="robots" content={indexar ? 'index, follow' : 'noindex, nofollow'} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content="Vivaze" />
+    <meta property="og:title" content={title} />
+    {description && <meta property="og:description" content={description} />}
+    {ogImage && <meta property="og:image" content={Astro.site ? new URL(ogImage, Astro.site).href : ogImage} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#5C1F2E" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" href="/fonts/Peachi-Bold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/Peachi-Medium.woff2" as="font" type="font/woff2" crossorigin />
+    {blocos.map((b) => <script type="application/ld+json" set:html={JSON.stringify(b)} />)}
+  </head>
+  <body>
+    <a href="#conteudo" class="skip">Pular para o conteúdo</a>
+    <div class="page">
+      <Header />
+      <main id="conteudo">
+        <slot />
+      </main>
+      <Footer />
+    </div>
+    <MenuMobile />
+    <a href={whatsappLink(whatsappMsg)} class="btn btn-cta btn-md fab" aria-label="Falar no WhatsApp" target="_blank" rel="noopener"><Icon name="whatsapp" /><span>WhatsApp</span></a>
+    <script>
+      import '../scripts/site.ts';
+    </script>
+  </body>
+</html>

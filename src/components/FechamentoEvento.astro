@@ -1,0 +1,16 @@
+---
+import Icon from './Icon.astro';
+import { whatsappLink } from '../data/site';
+interface Props { legenda: string; titulo: string; texto: string; cruzado: string; cruzadoLink: string; cruzadoRotulo: string; msg?: string }
+const { legenda, titulo, texto, cruzado, cruzadoLink, cruzadoRotulo, msg } = Astro.props;
+---
+<section class="closing closing--ev">
+  <p class="vz-caption c-rose">{legenda}</p>
+  <h2 class="vz-impact c-light">{titulo}</h2>
+  <p class="vz-sub c-rose">{texto}</p>
+  <div class="closing-actions">
+    <a href="/#orcamento" class="btn btn-cta btn-lg btn-block-m">Solicitar orçamento <Icon name="arrow-forward" /></a>
+    <a href={whatsappLink(msg)} class="link-light" target="_blank" rel="noopener">Falar no WhatsApp</a>
+  </div>
+  <p class="closing-cross">{cruzado} <a href={cruzadoLink} class="link-light">{cruzadoRotulo}</a></p>
+</section>

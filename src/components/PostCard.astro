@@ -1,0 +1,17 @@
+---
+import Foto from './Foto.astro';
+import Icon from './Icon.astro';
+import type { Artigo } from '../data/blog';
+interface Props { artigo: Artigo; linha?: boolean; nivel?: 'h2' | 'h3'; mostrarData?: boolean }
+const { artigo: a, linha = false, nivel = 'h3', mostrarData = true } = Astro.props;
+const Titulo = nivel;
+---
+<a href={`/blog/${a.slug}`} class:list={['post', linha && 'post--row']} data-cat={a.cat}>
+  <div class="post-imgwrap"><Foto nome={a.capa} class="post-img" sizes="(min-width: 1024px) 588px, 100vw" /></div>
+  <div class="post-text">
+    <div class="post-meta"><span class="tag">{a.categoria}</span><span class="vz-body-sm c-muted">{mostrarData ? `${a.dataRotulo} · ` : ''}{a.leitura}</span></div>
+    <Titulo class="vz-h3 c-brand post-title">{a.titulo}</Titulo>
+    <p class="vz-body-lg">{a.resumo}</p>
+    <span class="link-arrow">Ler artigo <Icon name="arrow-forward" size={20} /></span>
+  </div>
+</a>

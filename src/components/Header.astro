@@ -1,0 +1,25 @@
+---
+import Icon from './Icon.astro';
+import logo from '../assets/vivaze-logo.svg';
+import { site, whatsappLink } from '../data/site';
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const em = (base: string) => (base === '/' ? path === '/' : path === base || path.startsWith(base + '/'));
+const atual = (base: string) => (em(base) ? 'page' : undefined);
+---
+<header class="hdr">
+  <a href="/" class="hdr-logo" aria-label="Vivaze — página inicial"><img src={logo.src} alt="Vivaze" width={logo.width} height={logo.height} /></a>
+  <nav class="hdr-nav" aria-label="Principal">
+    <a href="/" aria-current={atual('/')}>Início</a>
+    <a href="/servicos" aria-current={atual('/servicos')}>Serviços</a>
+    <div class="dd">
+      <button type="button" class="dd-btn" aria-haspopup="true" data-current={em('/eventos') ? 'true' : 'false'}>Eventos<Icon name="chevron-down" size={16} /></button>
+      <div class="dd-menu">
+        <a href="/eventos/corporativos"><span class="dd-title">Eventos corporativos</span><span class="dd-desc">Ativações de marca, confraternizações, feiras e convenções</span></a>
+        <a href="/eventos/sociais"><span class="dd-title">Eventos sociais</span><span class="dd-desc">Casamentos, 15 anos, formaturas e aniversários</span></a>
+      </div>
+    </div>
+    <a href="/blog" aria-current={atual('/blog')}>Blog</a>
+  </nav>
+  <a href="/#orcamento" class="btn btn-cta btn-md hdr-cta">Solicitar orçamento</a>
+  <button type="button" class="burger" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu-mobile" data-menu-open><Icon name="menu" /></button>
+</header>

@@ -1,0 +1,21 @@
+---
+// Logos de clientes. modo "faixa": rolagem contínua no desktop (home). modo "grade": grade fixa.
+import { Image } from 'astro:assets';
+import { clientes } from '../data/site';
+import { logo } from '../data/fotos';
+interface Props { modo?: 'faixa' | 'grade'; titulo?: string }
+const { modo = 'grade', titulo = 'Marcas e instituições que confiaram na gente' } = Astro.props;
+---
+<div class:list={['logos', modo === 'faixa' ? 'logos--marquee' : 'logos--center']}>
+  <p class="vz-caption c-muted">{titulo}</p>
+  <div class:list={['logos-grid', modo === 'faixa' ? 'logos-grid--9' : 'logos-grid--5']}>
+    {clientes.map(([arq, nome]) => <Image src={logo(arq)} alt={nome} height={96} width={Math.round((logo(arq).width / logo(arq).height) * 96)} format="webp" loading="lazy" class="logo" />)}
+  </div>
+  {modo === 'faixa' && (
+    <div class="marquee-wrap">
+      <div class="marquee">
+        {[0, 1].map((volta) => clientes.map(([arq, nome]) => <Image src={logo(arq)} alt={volta === 0 ? nome : ''} aria-hidden={volta === 1 ? 'true' : undefined} height={96} width={Math.round((logo(arq).width / logo(arq).height) * 96)} format="webp" loading="lazy" class="logo" />))}
+      </div>
+    </div>
+  )}
+</div>
