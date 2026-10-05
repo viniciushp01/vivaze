@@ -336,20 +336,22 @@ button { font: inherit; }
 .logo { height: 36px; width: auto; max-width: 110px; object-fit: contain; filter: grayscale(1); opacity: 0.7; transition: filter 180ms ease-out, opacity 180ms ease-out; }
 .logo:hover { filter: none; opacity: 1; }
 .logos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px 16px; align-items: center; justify-items: center; }
-.marquee-wrap { display: none; }
-@media (max-width: 1023px) { .logos-grid--9 .logo:nth-child(n + 10) { display: none; } }
+.marquee-wrap { --mq-gap: 40px; --mq-fade: 32px; overflow: hidden; margin: 0 calc(-1 * var(--gutter)); padding: 4px 0; -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 var(--mq-fade), #000 calc(100% - var(--mq-fade)), transparent 100%); mask-image: linear-gradient(90deg, transparent 0, #000 var(--mq-fade), #000 calc(100% - var(--mq-fade)), transparent 100%); }
+.marquee { display: flex; align-items: center; gap: var(--mq-gap); width: max-content; animation: vz-scroll 42s linear infinite; }
+.marquee .logo { flex: none; }
+.logos--center .logos-grid { display: none; }
+.marquee-wrap:hover .marquee { animation-play-state: paused; }
 @media (min-width: 1024px) {
   .logos { gap: 24px; }
   .logo { height: 48px; max-width: 160px; }
-  .logos--marquee .logos-grid { display: none; }
-  .marquee-wrap { display: block; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 96px, #000 calc(100% - 96px), transparent 100%); mask-image: linear-gradient(90deg, transparent 0, #000 96px, #000 calc(100% - 96px), transparent 100%); }
-  .marquee { display: flex; align-items: center; gap: 64px; width: max-content; animation: vz-scroll 60s linear infinite; }
-  .marquee-wrap:hover .marquee { animation-play-state: paused; }
+  .marquee-wrap { --mq-gap: 64px; --mq-fade: 96px; margin: 0; padding: 0; }
+  .marquee { animation-duration: 60s; }
   .logos-grid--5 { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 48px 40px; }
   .logos--center { align-items: center; gap: 40px; }
-  .logos--center .logos-grid { width: 100%; }
+  .logos--center .logos-grid { display: grid; width: 100%; }
+  .logos--center .marquee-wrap { display: none; }
 }
-@keyframes vz-scroll { from { transform: translateX(0); } to { transform: translateX(calc(-50% - 32px)); } }
+@keyframes vz-scroll { from { transform: translateX(0); } to { transform: translateX(calc(-50% - var(--mq-gap) / 2)); } }
 
 /* ---------- história + como funciona ---------- */
 .story { display: flex; flex-direction: column; gap: 32px; }
@@ -704,7 +706,9 @@ select.input:invalid, select.input[data-empty="true"] { color: var(--neutral-600
   html { scroll-behavior: auto; }
   .btn, .card, .tile, .tile img, .post-img, .carousel-track, .logo { transition: none !important; }
   .tile:hover img, .post:hover .post-img { transform: none; }
-  .marquee { animation: none; flex-wrap: wrap; width: auto; justify-content: center; gap: 32px 64px; }
+  .marquee-wrap { margin: 0; -webkit-mask-image: none; mask-image: none; }
+  .marquee { animation: none; flex-wrap: wrap; width: auto; justify-content: center; gap: 24px var(--mq-gap); }
+  .marquee [aria-hidden="true"] { display: none; }
 }
 
 /* rodapé: Instagram fica na coluna de contato no mobile e em coluna própria no desktop */
