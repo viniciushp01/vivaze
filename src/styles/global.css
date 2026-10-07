@@ -223,19 +223,20 @@ button { font: inherit; }
 [hidden] { display: none !important; }
 
 /* ---------- home: hero ---------- */
-.hero { display: flex; flex-direction: column; height: calc(100vh - var(--header-h)); height: calc(100svh - var(--header-h)); min-height: 520px; background: var(--primary); color: var(--light-base); }
-.hero-photo { flex: 1 1 0; min-height: 140px; overflow: hidden; }
+.hero { display: flex; flex-direction: column; background: var(--primary); color: var(--light-base); }
+.hero-photo { height: 290px; overflow: hidden; }
 .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
-.hero-text { padding: 24px var(--gutter) 28px; display: flex; flex-direction: column; gap: 20px; }
+.hero-text { padding: 32px var(--gutter) 40px; display: flex; flex-direction: column; gap: 20px; }
 .hero-text h1 { color: var(--complementary); }
 .hero-actions { display: flex; flex-direction: column; align-items: center; gap: 20px; }
 .hero-note { color: var(--complementary); text-align: center; }
 @media (min-width: 1024px) {
-  .hero { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); min-height: 600px; }
-  .hero-photo { order: 2; height: auto; min-height: 0; }
-  .hero-text { padding: 48px 64px 48px var(--gutter); justify-content: center; gap: 24px; }
-  .hero-text .vz-display { max-width: 640px; }
-  .hero-text .vz-sub { max-width: 520px; }
+  .hero { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); min-height: calc(100vh - var(--header-h)); min-height: calc(100svh - var(--header-h)); }
+  .hero-photo { order: 2; height: auto; position: relative; }
+  .hero-photo img { position: absolute; inset: 0; }
+  .hero-text { padding: clamp(24px, 5vh, 80px) 64px clamp(24px, 5vh, 80px) var(--gutter); justify-content: center; gap: clamp(12px, 2.6vh, 24px); }
+  .hero-text .vz-display { max-width: 640px; font-size: clamp(44px, 8.2vh, 72px); line-height: 1.11; }
+  .hero-text .vz-sub { max-width: 520px; font-size: clamp(17px, 2.6vh, 22px); line-height: 1.45; }
   .hero-actions { flex-direction: row; gap: 32px; padding-top: 16px; }
   .hero-note { text-align: left; padding-top: 8px; }
 }

@@ -154,7 +154,7 @@ export const servicos: Servico[] = [
     lista: { foto: 'tot-plantando', pos: 'center 30%', texto: 'Simples, compacto e sempre pronto para registrar os momentos da festa, com acessórios divertidos e fotos impressas na hora.' },
     hero: { foto: 'L103', pos: 'center 45%', linha: 'Totem de fotos com acessórios divertidos e impressão na hora.' },
     descricao: { titulo: 'Diversão que cabe em qualquer espaço', texto: 'Um totem prático, com acessórios divertidos e fotos impressas na hora, personalizadas com a identidade do evento. Montamos tudo, um assistente orienta os convidados e, depois, todo mundo revê e baixa as fotos pelo link.', itens: ['Fotos impressas na hora', 'Acessórios divertidos', 'Foto personalizada', 'Link para baixar as fotos'] },
-    galeria: { titulo: 'Momentos reais no Totem Foto Divertida', fotos: ['tot-plantando', 'tot-amif', 'tot-chromos', 'tot-jobhome'], pos: ['center 30%', 'center 24%', 'center 23%', 'center 21%'] },
+    galeria: { titulo: 'Momentos reais no Totem Foto Divertida', fotos: ['tot-99food', 'tot-amif', 'tot-chromos', 'tot-jobhome'], pos: ['center 14%', 'center 24%', 'center 23%', 'center 21%'] },
     impacto: { frase: 'Diversão sem complicação.', sub: 'A gente monta tudo e cuida dos convidados. Você só aproveita.' },
     faq: [tempo('o totem'), P.acess, P.limite, P.receber],
     veja: ['totem-led-foto-lembranca', 'totem-led-2-em-1', 'cabine-tradicional'],

@@ -30,6 +30,7 @@ export const alts: Record<string, string> = {
   'cabine-tradicional-hero': 'Quatro amigas em vestidos de gala com as tirinhas de fotos, diante da Cabine Tradicional com cortinas pretas e TV',
   'cabine-tradicional-cards': 'Quatro amigas em vestidos de gala sorrindo com as tirinhas de fotos, diante da Cabine Tradicional com cortinas pretas e TV',
   guestbook: 'Convidada escrevendo uma mensagem no livro de assinaturas com a foto da Cabine Tradicional colada',
+  'tot-99food': 'Promotora sorrindo ao lado do totem amarelo personalizado da 99 Food em uma ativação de marca',
   'tot-jobhome': 'Promotora ao lado do totem personalizado da JobHome em um evento',
   'tot-johnsons-a': 'Mãos segurando as tirinhas de fotos impressas diante do totem personalizado da Johnson\'s Baby',
   'tot-johnsons-b': 'Duas promotoras mostrando as tirinhas de fotos impressas da Johnson\'s Baby',
