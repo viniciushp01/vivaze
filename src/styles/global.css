@@ -226,15 +226,20 @@ button { font: inherit; }
 .hero { display: flex; flex-direction: column; background: var(--primary); color: var(--light-base); }
 .hero-photo { height: 290px; overflow: hidden; position: relative; }
 .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: var(--pos-m, center 30%); }
-.hero-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.9s ease; }
-.hero-slide[data-active="true"] { opacity: 1; z-index: 1; }
+/* carrossel: trilho com rolagem horizontal (dedo, trackpad ou arrastar com o mouse), uma foto por vez */
+.hero-track { position: absolute; inset: 0; display: flex; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; }
+.hero-track::-webkit-scrollbar { display: none; }
+.hero-track[data-livre="true"] { scroll-snap-type: none; }
+.hero-track img { pointer-events: none; user-select: none; -webkit-user-drag: none; }
+.hero-slide { position: relative; flex: 0 0 100%; height: 100%; scroll-snap-align: start; scroll-snap-stop: always; }
+@media (hover: hover) and (pointer: fine) { .hero-track { cursor: grab; } .hero-track[data-dragging="true"] { cursor: grabbing; } }
 .hero-slide .tag--photo { top: 12px; left: 12px; height: 22px; padding: 0 8px; font-size: 11px; }
 .hero-dots { position: absolute; z-index: 2; left: 50%; bottom: 12px; transform: translateX(-50%); display: flex; align-items: center; gap: 2px; padding: 0 6px; height: 24px; border-radius: var(--radius-full); background: var(--overlay-tag); }
 .hero-dot { position: relative; width: 20px; height: 24px; padding: 0; border: 0; background: none; cursor: pointer; }
 .hero-dot::before { content: ""; position: absolute; left: 50%; top: 50%; width: 6px; height: 6px; border-radius: var(--radius-full); background: var(--light-base); opacity: 0.55; transform: translate(-50%, -50%); transition: width 0.25s ease, opacity 0.25s ease, background 0.25s ease; }
 .hero-dot[aria-current="true"]::before { width: 18px; opacity: 1; background: var(--complementary); }
 .hero-dot:focus-visible { outline: 2px solid var(--complementary); outline-offset: 0; border-radius: var(--radius-full); }
-@media (prefers-reduced-motion: reduce) { .hero-slide, .hero-dot::before { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .hero-dot::before { transition: none; } }
 .hero-text { padding: 32px var(--gutter) 40px; display: flex; flex-direction: column; gap: 20px; }
 .hero-text h1 { color: var(--complementary); }
 .hero-actions { display: flex; flex-direction: column; align-items: center; gap: 20px; }

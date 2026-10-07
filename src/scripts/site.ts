@@ -57,21 +57,25 @@ document.querySelectorAll<HTMLElement>('[data-carousel]').forEach((raiz) => {
   pintar();
 });
 
-/* ---------- carrossel do hero (troca sozinho a cada 3 s) ---------- */
+/* ---------- carrossel do hero (troca sozinho a cada 3 s; aceita rolagem horizontal) ---------- */
 document.querySelectorAll<HTMLElement>('[data-hero-carousel]').forEach((raiz) => {
+  const trilho = raiz.querySelector<HTMLElement>('[data-track]');
   const slides = Array.from(raiz.querySelectorAll<HTMLElement>('[data-slide]'));
   const pontos = Array.from(raiz.querySelectorAll<HTMLButtonElement>('[data-dot]'));
-  if (slides.length < 2) return;
+  if (!trilho || slides.length < 2) return;
   const reduz = window.matchMedia('(prefers-reduced-motion: reduce)');
   let atual = 0;
+  let alvo: number | null = null; // destino de uma rolagem feita pelo código (ignora o "scroll" até chegar)
   let timer: number | undefined;
-  const ir = (n: number) => {
-    atual = (n + slides.length) % slides.length;
-    slides.forEach((s, k) => {
-      s.dataset.active = String(k === atual);
-      s.setAttribute('aria-hidden', String(k !== atual));
-    });
+  const pintar = () => {
+    slides.forEach((s, k) => s.setAttribute('aria-hidden', String(k !== atual)));
     pontos.forEach((p, k) => p.setAttribute('aria-current', String(k === atual)));
+  };
+  const ir = (n: number, suave = true) => {
+    atual = (n + slides.length) % slides.length;
+    alvo = atual;
+    trilho.scrollTo({ left: atual * trilho.clientWidth, behavior: suave && !reduz.matches ? 'smooth' : 'auto' });
+    pintar();
   };
   const parar = () => { window.clearInterval(timer); timer = undefined; };
   const tocar = () => {
@@ -79,6 +83,49 @@ document.querySelectorAll<HTMLElement>('[data-hero-carousel]').forEach((raiz) =>
     if (reduz.matches || document.hidden) return;
     timer = window.setInterval(() => ir(atual + 1), 3000);
   };
+
+  // rolagem feita pela pessoa: os pontos acompanham a foto que está na tela
+  trilho.addEventListener('scroll', () => {
+    const largura = trilho.clientWidth;
+    if (alvo !== null) {
+      if (Math.abs(trilho.scrollLeft - alvo * largura) < 2) { alvo = null; delete trilho.dataset.livre; }
+      return;
+    }
+    const n = Math.round(trilho.scrollLeft / largura);
+    if (n !== atual && n >= 0 && n < slides.length) { atual = n; pintar(); }
+  }, { passive: true });
+  trilho.addEventListener('touchstart', () => { alvo = null; parar(); }, { passive: true });
+  trilho.addEventListener('touchend', tocar);
+  trilho.addEventListener('touchcancel', tocar);
+  trilho.addEventListener('wheel', (e) => { if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) alvo = null; }, { passive: true });
+
+  // arrastar com o mouse
+  let arrasto: { x: number; inicio: number } | null = null;
+  trilho.addEventListener('pointerdown', (e) => {
+    if (e.pointerType !== 'mouse' || e.button !== 0) return;
+    alvo = null;
+    arrasto = { x: e.clientX, inicio: trilho.scrollLeft };
+    trilho.dataset.dragging = 'true';
+    trilho.dataset.livre = 'true';
+    trilho.setPointerCapture(e.pointerId);
+  });
+  trilho.addEventListener('pointermove', (e) => {
+    if (arrasto) trilho.scrollLeft = arrasto.inicio - (e.clientX - arrasto.x);
+  });
+  const soltar = (e: PointerEvent) => {
+    if (!arrasto) return;
+    const dx = e.clientX - arrasto.x;
+    const base = Math.round(arrasto.inicio / trilho.clientWidth);
+    const limiar = trilho.clientWidth * 0.15;
+    const destino = dx < -limiar ? base + 1 : dx > limiar ? base - 1 : base;
+    arrasto = null;
+    delete trilho.dataset.dragging;
+    ir(Math.max(0, Math.min(slides.length - 1, destino)));
+    window.setTimeout(() => { delete trilho.dataset.livre; }, 700);
+  };
+  trilho.addEventListener('pointerup', soltar);
+  trilho.addEventListener('pointercancel', soltar);
+
   pontos.forEach((p, k) => p.addEventListener('click', () => { ir(k); tocar(); }));
   raiz.addEventListener('mouseenter', parar);
   raiz.addEventListener('mouseleave', tocar);
@@ -86,6 +133,7 @@ document.querySelectorAll<HTMLElement>('[data-hero-carousel]').forEach((raiz) =>
   raiz.addEventListener('focusout', tocar);
   document.addEventListener('visibilitychange', tocar);
   reduz.addEventListener('change', tocar);
+  window.addEventListener('resize', () => ir(atual, false));
   tocar();
 });
 

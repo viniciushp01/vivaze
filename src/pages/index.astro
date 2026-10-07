@@ -35,12 +35,14 @@ const jsonLd = {
   <!-- HERO: a legenda é o h1 da página; a frase de marca é parágrafo -->
   <section class="hero">
     <div class="hero-photo" data-hero-carousel role="group" aria-roledescription="carrossel" aria-label="Fotos de eventos">
-      {heroSlides.map((sl, i) => (
-        <div class="hero-slide" data-slide data-active={i === 0 ? 'true' : 'false'} aria-hidden={i === 0 ? 'false' : 'true'} style={`--pos-m: ${sl.posM}; --pos-d: ${sl.posD}`}>
-          <Foto nome={sl.nome} loading={i === 0 ? 'eager' : 'lazy'} sizes="(min-width: 1024px) 42vw, 100vw" />
-          <span class="tag tag--photo">{sl.tag}</span>
-        </div>
-      ))}
+      <div class="hero-track" data-track>
+        {heroSlides.map((sl, i) => (
+          <div class="hero-slide" data-slide aria-hidden={i === 0 ? 'false' : 'true'} style={`--pos-m: ${sl.posM}; --pos-d: ${sl.posD}`}>
+            <Foto nome={sl.nome} loading={i === 0 ? 'eager' : 'lazy'} sizes="(min-width: 1024px) 42vw, 100vw" />
+            <span class="tag tag--photo">{sl.tag}</span>
+          </div>
+        ))}
+      </div>
       <div class="hero-dots">
         {heroSlides.map((sl, i) => (
           <button type="button" class="hero-dot" data-dot aria-label={`Ver foto ${i + 1} de ${heroSlides.length}: ${sl.tag}`} aria-current={i === 0 ? 'true' : 'false'}></button>
