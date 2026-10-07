@@ -167,6 +167,7 @@ if (form) {
   const botao = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
   const rotulo = botao.querySelector<HTMLElement>('[data-label]')!;
   const comEmpresa = (form.dataset.empresaTipos || '').split('|');
+  const marcaTempo = campo('t'); if (marcaTempo) marcaTempo.value = String(Date.now()); // antispam: tempo de preenchimento
 
   tel?.addEventListener('input', () => {
     const d = tel.value.replace(/\D/g, '').slice(0, 11);
@@ -237,9 +238,27 @@ if (form) {
     if (primeiro) { primeiro.focus(); return; }
     botao.disabled = true;
     rotulo.textContent = 'Enviando…';
-    // PRÉVIA: o envio é simulado. Para ligar ao Vivaze CRM, trocar este bloco por um
-    // fetch('/api/orcamento', { method: 'POST', body: new FormData(form) }) e tratar a falha.
-    await new Promise((r) => setTimeout(r, 900));
+    const falha = (titulo: string, msg: string) => {
+      if (aviso) {
+        aviso.dataset.show = 'true';
+        const t = aviso.querySelector('strong'); const sp = aviso.querySelector('span');
+        if (t) t.textContent = titulo;
+        if (sp) sp.textContent = msg;
+        aviso.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      }
+      botao.disabled = false;
+      rotulo.textContent = 'Solicitar orçamento';
+    };
+    try {
+      const res = await fetch('/api/orcamento.php', { method: 'POST', body: new FormData(form) });
+      const json = await res.json().catch(() => null);
+      if (!res.ok || !json?.ok) {
+        if (res.status === 429) return falha('Muitas tentativas', 'Aguarde alguns minutos e tente de novo, ou fale com a gente pelo WhatsApp.');
+        return falha('Não foi possível enviar', 'Tente novamente em instantes ou fale com a gente pelo WhatsApp.');
+      }
+    } catch {
+      return falha('Sem conexão', 'Não conseguimos enviar o pedido. Verifique a internet e tente de novo, ou fale com a gente pelo WhatsApp.');
+    }
     const nome = (campo('nome')!.value.trim().split(/\s+/)[0]) || '';
     const canal = campo('preferencia_recebimento_orcamento')!.value;
     const frases: Record<string, string> = { WhatsApp: 'pelo WhatsApp, como você preferiu', 'E-mail': 'por e-mail, como você preferiu', 'Ligação rápida': 'por telefone, como você preferiu' };
@@ -256,6 +275,7 @@ if (form) {
   });
   form.querySelector('[data-again]')?.addEventListener('click', () => {
     form.reset();
+    if (marcaTempo) marcaTempo.value = String(Date.now());
     form.dataset.state = '';
     if (linhaEmpresa) linhaEmpresa.hidden = true;
     form.querySelectorAll<HTMLSelectElement>('select').forEach((s) => { s.dataset.empty = 'true'; });

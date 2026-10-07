@@ -1,0 +1,3 @@
+{
+  "buildCommand": "astro build && rm -f dist/api/orcamento.php"
+}

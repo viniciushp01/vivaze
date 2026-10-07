@@ -52,14 +52,17 @@ Para criar um artigo, copie um dos `.md` de `src/blog/`, troque o nome do arquiv
 
 ## Formulário de orçamento
 
-Nesta prévia o envio é **simulado**: o formulário valida os campos e mostra a tela de confirmação, mas não manda nada para lugar nenhum.
+O formulário envia por `fetch` para `/api/orcamento.php` (arquivo `public/api/orcamento.php`, copiado para a hospedagem HostGator junto com o site). O PHP valida de novo os campos, aplica o antispam (honeypot `website`, tempo mínimo de preenchimento, limite de 5 envios por IP a cada 10 min e checagem de origem `vivaze.com.br`) e repassa o pedido ao Vivaze CRM (`https://cabinefoto.com.br/vivaze-crm/public/pedido_orcamento.php`) por cURL. Convidados e empresa vão no início de `mensagem`, porque o CRM não tem campos para eles.
 
-Os campos já usam os nomes do Vivaze CRM: `nome`, `email`, `telefone`, `cidade_evento`, `data_evento`, `tipo_evento`, `empresa`, `convidados`, `preferencia_recebimento_orcamento`, `mensagem`, `consentimento` e `website` (campo-isca contra robôs, fica escondido).
+Se o CRM falhar, o pedido é gravado em `vivaze-logs/pedidos-nao-enviados.log` (uma pasta acima da pasta pública) e, se `ALERT_EMAIL` estiver preenchido no PHP, enviado por e-mail. O site mostra um aviso de erro para o visitante.
 
-Para ligar ao CRM:
+Pendências antes de publicar:
 
-1. Criar uma rota no servidor, `/api/orcamento`, que recebe o formulário e repassa para `https://cabinefoto.com.br/vivaze-crm/public/pedido_orcamento.php`. Assim o endereço do CRM não fica exposto no navegador e dá para tratar erro e spam em um lugar só.
-2. Em `src/scripts/site.ts`, trocar o trecho marcado com `PRÉVIA` por um `fetch('/api/orcamento', { method: 'POST', body: new FormData(form) })` e mostrar a mensagem de falha quando o envio não der certo.
+1. `ALERT_EMAIL` já está com vivaze01@gmail.com; conferir se `ALERT_FROM` (site@vivaze.com.br) é um e-mail válido do domínio e se o aviso não cai no spam.
+2. Fazer um envio de teste real e ajustar o trecho `TODO` do PHP: hoje "sucesso" é qualquer resposta HTTP 2xx/3xx do CRM; o ideal é o CRM devolver JSON ou o PHP checar a mensagem da página. As respostas ficam em `vivaze-logs/crm-respostas.log`.
+3. Chave secreta no CRM (hoje o endpoint é público, protegido só pelo honeypot) e campos novos para convidados, empresa, origem e consentimento.
+
+Em `npm run dev` o `/api/orcamento.php` não existe, então o envio mostra a mensagem de erro; para testar de ponta a ponta, publique na hospedagem (ou rode `php -S` com a pasta `dist`).
 
 ## Pendências de conteúdo
 

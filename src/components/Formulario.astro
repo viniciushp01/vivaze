@@ -1,11 +1,12 @@
 ---
 // Formulário de orçamento. Os "name" seguem o Vivaze CRM (ver README).
-// Nesta prévia o envio é simulado em src/scripts/site.ts.
+// O envio vai para public/api/orcamento.php, que repassa ao Vivaze CRM (ver README).
 import Icon from './Icon.astro';
 import { site, cidades, tiposEvento, tiposComEmpresa, faixasConvidados, canais, whatsappLink } from '../data/site';
 ---
 <form class="form" novalidate data-form data-empresa-tipos={tiposComEmpresa.join('|')} aria-label="Pedido de orçamento">
   <div class="hp" aria-hidden="true"><label for="f-website">Não preencher</label><input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off" /></div>
+  <input type="hidden" name="t" value="" />
 
   <div class="notice full" role="alert" data-notice data-show="false"><Icon name="error" size={20} /><div><strong></strong><span></span></div></div>
 
