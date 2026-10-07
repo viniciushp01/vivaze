@@ -33,7 +33,7 @@ O relatório de tendências de eventos da Cvent para 2026 aponta que 72% dos par
 
 Assistir a uma apresentação é passivo. Entrar em uma cabine com os colegas, escolher os acessórios, rir da foto e sair com ela na mão é participar. É nesse momento que a marca deixa de ser um logo no banner e passa a fazer parte de uma lembrança boa.
 
-![Totem personalizado com a identidade de uma campanha interna](../assets/fotos/L24.jpg)
+![Promotora segurando a foto impressa ao lado do totem personalizado do Colégio Chromos](../assets/fotos/tot-chromos.jpg)
 
 *Totem personalizado com a identidade da campanha: a marca está em cada foto que vai para casa.*
 

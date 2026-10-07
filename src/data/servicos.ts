@@ -163,7 +163,7 @@ export const servicos: Servico[] = [
   {
     slug: 'paparazzo-varal', nome: 'Paparazzo + Varal', nomeLista: 'Paparazzo + Varal de Fotos', familia: 'Paparazzo', filtro: 'paparazzo',
     artigo: 'o Paparazzo + Varal', precisa: 'o serviço',
-    home: { foto: 'p-paparazzi', pos: 'center 40%', frase: 'Um fotógrafo entre os convidados e as fotos impressas no varal' },
+    home: { foto: 'varal', pos: 'center 29%', frase: 'Um fotógrafo entre os convidados e as fotos impressas no varal' },
     lista: { foto: 'L88', pos: 'center 40%', texto: 'Um fotógrafo circulando entre os convidados, flagrando os momentos espontâneos e verdadeiros. As fotos são impressas no dia e entregues num varal.' },
     hero: { foto: 'L97', pos: 'center 40%', linha: 'Um fotógrafo circula pela festa, e as fotos são impressas e penduradas num varal ainda durante o evento.' },
     descricao: { titulo: 'Do flagra ao varal, no mesmo dia', texto: 'Enquanto a festa acontece, nosso fotógrafo registra os momentos espontâneos com equipamento profissional. As fotos são personalizadas e impressas numa ilha no próprio evento e vão para um varal, de onde cada convidado leva a sua para casa.', itens: ['Fotógrafo profissional', 'Impressão no próprio evento', 'Varal de fotos', 'Link para baixar tudo'] },

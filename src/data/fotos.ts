@@ -17,7 +17,10 @@ export const logo = (nome: string) => pega(logosArq, 'logos', nome, 'png');
 export const retrato = (nome: string) => pega(depoArq, 'depoimentos', nome, 'png');
 
 export const alts: Record<string, string> = {
-  'hero-home': 'Quatro participantes de um evento corporativo sorrindo com as tirinhas de fotos impressas na hora',
+  'foto-10x15-impressa-na-hora': 'Moça sorrindo e segurando a foto impressa no formato 10x15 em um evento',
+  'foto-polaroid-evento-corporativo': 'Duas mulheres sorrindo e mostrando as fotos instantâneas em formato polaroid em um evento corporativo',
+  varal: 'Convidada pendurando uma foto impressa no varal de fotos de um casamento',
+  'tirinhas-de-fotos-evento-corporativo': 'Quatro participantes de um evento corporativo sorrindo com as tirinhas de fotos impressas na hora',
   'tot-trilhas-led': 'Grupo de ciclistas ao lado do Totem Led redondo em um evento ao ar livre',
   'tot-moldura-trilhas': 'Dois ciclistas fazendo coração com as mãos na foto com a moldura do Circuito Vale de Trilhas',
   'tot-plantando': 'Dois membros da equipe segurando as fotos impressas ao lado do totem personalizado',
@@ -103,6 +106,7 @@ export const alts: Record<string, string> = {
   L97: 'Convidados olhando as fotos no varal em um jardim',
   L90: 'Convidados escolhendo as fotos no varal',
   L93: 'Amigas brindando em uma foto personalizada do casamento',
+  'L92-recorte': 'Convidados sorridindo juntos na festa de um casamento, com a banda ao fundo',
   L100: 'Fotos impressas em formato polaroid',
   L98: 'Varal de fotos montado no jardim',
   L23: 'Promotora ao lado de um totem personalizado em uma ativação de marca',

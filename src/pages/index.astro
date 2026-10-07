@@ -9,6 +9,12 @@ import { servicos } from '../data/servicos';
 import { site } from '../data/site';
 
 const [tradicional, ...demais] = servicos;
+// Carrossel do hero: a primeira foto é a que aparece sem JavaScript. posM/posD = foco do recorte no mobile/desktop.
+const heroSlides = [
+  { nome: 'tirinhas-de-fotos-evento-corporativo', tag: 'Tirinhas', posM: 'center 14%', posD: 'center 14%' },
+  { nome: 'foto-10x15-impressa-na-hora', tag: 'Foto 10x15', posM: 'center 30%', posD: '71% center' },
+  { nome: 'foto-polaroid-evento-corporativo', tag: 'Polaroid', posM: 'center 45%', posD: 'center 20%' },
+];
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
@@ -28,11 +34,23 @@ const jsonLd = {
 >
   <!-- HERO: a legenda é o h1 da página; a frase de marca é parágrafo -->
   <section class="hero">
-    <div class="hero-photo"><Foto nome="hero-home" pos="center 14%" loading="eager" sizes="(min-width: 1024px) 42vw, 100vw" /></div>
+    <div class="hero-photo" data-hero-carousel role="group" aria-roledescription="carrossel" aria-label="Fotos de eventos">
+      {heroSlides.map((sl, i) => (
+        <div class="hero-slide" data-slide data-active={i === 0 ? 'true' : 'false'} aria-hidden={i === 0 ? 'false' : 'true'} style={`--pos-m: ${sl.posM}; --pos-d: ${sl.posD}`}>
+          <Foto nome={sl.nome} loading={i === 0 ? 'eager' : 'lazy'} sizes="(min-width: 1024px) 42vw, 100vw" />
+          <span class="tag tag--photo">{sl.tag}</span>
+        </div>
+      ))}
+      <div class="hero-dots">
+        {heroSlides.map((sl, i) => (
+          <button type="button" class="hero-dot" data-dot aria-label={`Ver foto ${i + 1} de ${heroSlides.length}: ${sl.tag}`} aria-current={i === 0 ? 'true' : 'false'}></button>
+        ))}
+      </div>
+    </div>
     <div class="hero-text">
       <h1 class="vz-caption">Cabine de fotos, Totem Fotográfico, Espelho Mágico, Lambe-Lambe Retrô e Vídeo 360 para eventos em BH e região</h1>
       <p class="vz-display">O momento é seu. A gente cuida de registrar.</p>
-      <p class="vz-sub">Há mais de 13 anos a gente registra formaturas, casamentos, festas de 15 anos, aniversários e eventos de empresas, com a lembrança pronta na hora.</p>
+      <p class="vz-sub">Há mais de 13 anos a gente registra formaturas, casamentos, festas de 15 anos, aniversários e eventos de empresas, com a foto lembrança pronta na hora.</p>
       <div class="hero-actions">
         <a href="#orcamento" class="btn btn-cta btn-lg btn-block-m">Solicitar orçamento <Icon name="arrow-forward" /></a>
         <a href="/servicos" class="link-light">Conheça os serviços</a>
@@ -65,7 +83,7 @@ const jsonLd = {
           </a>
         ))}
       </div>
-      <p class="vz-body-sm c-muted bento-hint only-m">Arraste para ver as outras 9 experiências</p>
+      <p class="vz-body-sm c-muted bento-hint only-m">Arraste para ver as outras experiências</p>
       <div class="cta-block">
         <h3 class="vz-h3 c-light">Ainda em dúvida sobre qual escolher?</h3>
         <p class="vz-body c-rose">Fale com a gente. Você conta como vai ser o evento e a gente indica o que combina.</p>
@@ -93,7 +111,7 @@ const jsonLd = {
         </div>
       </article>
       <article class="audience">
-        <Foto nome="b2c" pos="center 25%" sizes="(min-width: 1024px) 588px, 100vw" />
+        <Foto nome="L92-recorte" pos="center 50%" sizes="(min-width: 1024px) 588px, 100vw" />
         <div class="audience-body">
           <p class="vz-caption c-brand">Para você</p>
           <h3 class="vz-h3 c-brand">As festas que você vai querer rever</h3>

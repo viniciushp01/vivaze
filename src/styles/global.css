@@ -224,8 +224,17 @@ button { font: inherit; }
 
 /* ---------- home: hero ---------- */
 .hero { display: flex; flex-direction: column; background: var(--primary); color: var(--light-base); }
-.hero-photo { height: 290px; overflow: hidden; }
-.hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+.hero-photo { height: 290px; overflow: hidden; position: relative; }
+.hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: var(--pos-m, center 30%); }
+.hero-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.9s ease; }
+.hero-slide[data-active="true"] { opacity: 1; z-index: 1; }
+.hero-slide .tag--photo { top: 12px; left: 12px; height: 22px; padding: 0 8px; font-size: 11px; }
+.hero-dots { position: absolute; z-index: 2; left: 50%; bottom: 12px; transform: translateX(-50%); display: flex; align-items: center; gap: 2px; padding: 0 6px; height: 24px; border-radius: var(--radius-full); background: var(--overlay-tag); }
+.hero-dot { position: relative; width: 20px; height: 24px; padding: 0; border: 0; background: none; cursor: pointer; }
+.hero-dot::before { content: ""; position: absolute; left: 50%; top: 50%; width: 6px; height: 6px; border-radius: var(--radius-full); background: var(--light-base); opacity: 0.55; transform: translate(-50%, -50%); transition: width 0.25s ease, opacity 0.25s ease, background 0.25s ease; }
+.hero-dot[aria-current="true"]::before { width: 18px; opacity: 1; background: var(--complementary); }
+.hero-dot:focus-visible { outline: 2px solid var(--complementary); outline-offset: 0; border-radius: var(--radius-full); }
+@media (prefers-reduced-motion: reduce) { .hero-slide, .hero-dot::before { transition: none; } }
 .hero-text { padding: 32px var(--gutter) 40px; display: flex; flex-direction: column; gap: 20px; }
 .hero-text h1 { color: var(--complementary); }
 .hero-actions { display: flex; flex-direction: column; align-items: center; gap: 20px; }
@@ -234,6 +243,9 @@ button { font: inherit; }
   .hero { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); min-height: calc(100vh - var(--header-h)); min-height: calc(100svh - var(--header-h)); }
   .hero-photo { order: 2; height: auto; position: relative; }
   .hero-photo img { position: absolute; inset: 0; }
+  .hero-photo img { object-position: var(--pos-d, center 30%); }
+  .hero-slide .tag--photo { top: 24px; left: 24px; height: 28px; padding: 0 12px; font-size: 12px; }
+  .hero-dots { bottom: 24px; }
   .hero-text { padding: clamp(24px, 5vh, 80px) 64px clamp(24px, 5vh, 80px) var(--gutter); justify-content: center; gap: clamp(12px, 2.6vh, 24px); }
   .hero-text .vz-display { max-width: 640px; font-size: clamp(44px, 8.2vh, 72px); line-height: 1.11; }
   .hero-text .vz-sub { max-width: 520px; font-size: clamp(17px, 2.6vh, 22px); line-height: 1.45; }
@@ -737,6 +749,8 @@ select.input:invalid, select.input[data-empty="true"] { color: var(--neutral-600
 /* artigo: imagem com legenda escrita em Markdown (imagem + linha em itálico) */
 .art > p:has(> img:only-child) { margin: 8px calc(-1 * var(--gutter)) 0; }
 .art > p:has(> img:only-child) img { width: 100%; height: 300px; object-fit: cover; object-position: center 40%; }
+/* foco por foto (igual ao recorte do Figma) */
+.art > p:has(> img:only-child) img[alt^="Promotora segurando"] { object-position: center 24%; }
 .art > p:has(> img:only-child) + p:has(> em:only-child) { margin-top: -12px; font-size: 14px; line-height: 20px; color: var(--neutral-600); }
 .art > p:has(> img:only-child) + p:has(> em:only-child) em { font-style: normal; }
 @media (min-width: 1024px) {
@@ -765,3 +779,16 @@ select.input:invalid, select.input[data-empty="true"] { color: var(--neutral-600
   .quality .checks { grid-template-columns: minmax(0, 1fr); }
   .quality-video { max-width: 360px; margin: 0; justify-self: center; }
 }
+
+/* ---------- FAQ (página /faq) ---------- */
+.faq-page { padding: 0 var(--gutter) 64px; }
+.faq-list { max-width: 880px; margin: 0 auto; border-top: 1px solid var(--neutral-200); }
+.faq-item { border-bottom: 1px solid var(--neutral-200); }
+.faq-q { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 48px; padding: 24px 0; cursor: pointer; list-style: none; color: var(--primary); }
+.faq-q::-webkit-details-marker { display: none; }
+.faq-q svg { flex-shrink: 0; transition: transform 180ms ease-out; }
+.faq-item[open] .faq-q svg { transform: rotate(180deg); }
+.faq-q:focus-visible { outline: none; box-shadow: var(--shadow-focus); border-radius: var(--radius-sm); }
+.faq-a { margin: 0; padding: 0 0 24px; max-width: 760px; }
+@media (min-width: 1024px) { .faq-page { padding: 32px var(--gutter) 96px; } }
+@media (prefers-reduced-motion: reduce) { .faq-q svg { transition: none; } }

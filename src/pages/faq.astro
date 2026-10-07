@@ -1,0 +1,39 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { faq } from '../data/faq';
+const jsonLd = {
+  '@context': 'https://schema.org', '@type': 'FAQPage',
+  mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
+};
+---
+<Base
+  title="Perguntas frequentes | Vivaze"
+  description="Tire suas dúvidas sobre cabine de fotos, impressão, formatos, acessórios, entrega das fotos e forma de pagamento com a Vivaze, em Belo Horizonte e região."
+  jsonLd={jsonLd}
+>
+  <section class="blog-intro">
+    <p class="vz-caption c-brand">FAQ</p>
+    <h1 class="vz-display c-brand">Perguntas frequentes</h1>
+    <p class="vz-sub">Tire suas dúvidas sobre cabines, impressão, formatos e pagamento.</p>
+  </section>
+
+  <section class="faq-page">
+    <div class="faq-list">
+      {faq.map(([q, a], i) => (
+        <details class="faq-item" open={i === 0}>
+          <summary class="faq-q"><span class="vz-h4 c-brand">{q}</span><Icon name="chevron-down" /></summary>
+          <p class="faq-a vz-body-lg">{a}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <section class="sec sec--soft blog-cta">
+    <div class="sec-head">
+      <p class="vz-caption c-brand">Ainda com dúvida?</p>
+      <h2 class="vz-h2 c-brand">Fale com a gente e conte sobre o seu evento.</h2>
+    </div>
+    <a href="/#orcamento" class="btn btn-cta btn-lg btn-block-m">Solicitar orçamento <Icon name="arrow-forward" /></a>
+  </section>
+</Base>

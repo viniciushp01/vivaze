@@ -57,6 +57,38 @@ document.querySelectorAll<HTMLElement>('[data-carousel]').forEach((raiz) => {
   pintar();
 });
 
+/* ---------- carrossel do hero (troca sozinho a cada 3 s) ---------- */
+document.querySelectorAll<HTMLElement>('[data-hero-carousel]').forEach((raiz) => {
+  const slides = Array.from(raiz.querySelectorAll<HTMLElement>('[data-slide]'));
+  const pontos = Array.from(raiz.querySelectorAll<HTMLButtonElement>('[data-dot]'));
+  if (slides.length < 2) return;
+  const reduz = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let atual = 0;
+  let timer: number | undefined;
+  const ir = (n: number) => {
+    atual = (n + slides.length) % slides.length;
+    slides.forEach((s, k) => {
+      s.dataset.active = String(k === atual);
+      s.setAttribute('aria-hidden', String(k !== atual));
+    });
+    pontos.forEach((p, k) => p.setAttribute('aria-current', String(k === atual)));
+  };
+  const parar = () => { window.clearInterval(timer); timer = undefined; };
+  const tocar = () => {
+    parar();
+    if (reduz.matches || document.hidden) return;
+    timer = window.setInterval(() => ir(atual + 1), 3000);
+  };
+  pontos.forEach((p, k) => p.addEventListener('click', () => { ir(k); tocar(); }));
+  raiz.addEventListener('mouseenter', parar);
+  raiz.addEventListener('mouseleave', tocar);
+  raiz.addEventListener('focusin', parar);
+  raiz.addEventListener('focusout', tocar);
+  document.addEventListener('visibilitychange', tocar);
+  reduz.addEventListener('change', tocar);
+  tocar();
+});
+
 /* ---------- filtros (Serviços e Blog) ---------- */
 document.querySelectorAll<HTMLElement>('[data-filters]').forEach((grupo) => {
   const alvo = document.querySelector<HTMLElement>(grupo.dataset.filters!);
