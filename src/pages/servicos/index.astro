@@ -4,7 +4,9 @@ import Icon from '../../components/Icon.astro';
 import Foto from '../../components/Foto.astro';
 import { servicos, filtros } from '../../data/servicos';
 
-const [tradicional, vip, ...demais] = servicos;
+const [tradicional, vip, ...demaisTodos] = servicos;
+const totens = demaisTodos.filter((s) => s.familia === 'Totem');
+const demais = demaisTodos.filter((s) => s.familia !== 'Totem');
 const jsonLd = {
   '@context': 'https://schema.org', '@type': 'ItemList', name: 'Serviços da Vivaze',
   itemListElement: servicos.map((s, i) => ({ '@type': 'ListItem', position: i + 1, name: s.nome, url: Astro.site ? new URL(`/servicos/${s.slug}`, Astro.site).href : `/servicos/${s.slug}` })),
@@ -59,12 +61,25 @@ const jsonLd = {
         </div>
       </div>
     </article>
+    <div class="svc-grid">
+      {totens.map((s) => (
+        <a href={`/servicos/${s.slug}`} class="svc-card" data-cat={s.filtro}>
+          <Foto nome={s.lista.foto} pos={s.lista.pos} sizes="(min-width: 1024px) 384px, 100vw" widths={[400, 640, 800, 1200]} />
+          <div class="svc-card-body">
+            <p class="vz-caption c-muted">{s.familia}</p>
+            <h3 class="vz-h4 c-brand">{s.nomeLista}</h3>
+            <p class="vz-body">{s.lista.texto}</p>
+            <span class="link-arrow">Ver detalhes <Icon name="arrow-forward" size={20} /></span>
+          </div>
+        </a>
+      ))}
+    </div>
   </section>
 
   <section class="sec sec--line" data-hide-when-filtered>
     <div class="sec-head" data-only-all>
       <p class="vz-caption c-brand">Todas as experiências</p>
-      <h2 class="vz-h2 c-brand">Conheça os outros oito formatos</h2>
+      <h2 class="vz-h2 c-brand">Conheça os outros cinco formatos</h2>
     </div>
     <div class="svc-grid" id="servicos-lista">
       {demais.map((s) => (

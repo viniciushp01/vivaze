@@ -7,13 +7,17 @@ import FechamentoEvento from '../../components/FechamentoEvento.astro';
 import { servico } from '../../data/servicos';
 import { retrato } from '../../data/fotos';
 
-const fotos = [['ev-15anos', '15 anos'], ['b2c', 'Formatura'], ['L69', 'Casamento']];
+// Cada item é uma foto (f) ou um vídeo em loop (v). Os vídeos ficam em public/videos (.mp4 + -poster.jpg).
+const fotos: { f?: string; v?: string; legenda: string; alt?: string }[] = [
+  { v: 'social-360', legenda: 'Cabine 360°', alt: 'Convidada dançando na plataforma da Cabine 360° em uma festa' },
+  { v: 'social-totem', legenda: 'Totem Led', alt: 'Convidadas posando diante do Totem Led em uma festa' },
+];
 const festas = [
   { titulo: 'Casamento', texto: 'O dia em que duas famílias viram uma. Cada convidado leva um pedaço dele para casa.', combinam: ['espelho-magico', 'cabine-vip'] },
   { titulo: '15 anos', texto: 'A noite em que ela é a estrela, e as amigas também.', combinam: ['cabine-tradicional', 'tunel-infinity'] },
-  { titulo: 'Formatura', texto: 'O fim de um ciclo celebrado com quem esteve junto até aqui.', combinam: ['cabine-360', 'paparazzi-varal'] },
+  { titulo: 'Formatura', texto: 'O fim de um ciclo celebrado com quem esteve junto até aqui.', combinam: ['cabine-360', 'paparazzo-varal'] },
   { titulo: 'Aniversário e festa infantil', texto: 'A família reunida, das crianças aos avós, na mesma foto.', combinam: ['lambe-lambe-retro', 'totem-foto-divertida'] },
-  { titulo: 'Chá de revelação', texto: 'A surpresa registrada no rosto de quem mais importa.', combinam: ['totem-2-em-1'] },
+  { titulo: 'Chá de revelação', texto: 'A surpresa registrada no rosto de quem mais importa.', combinam: ['totem-led-2-em-1'] },
 ];
 const vozes = [
   { nome: 'Francielly Aquino', foto: 'testimonial_francielly', contexto: 'Casamento', texto: 'Vocês registraram momentos divertidos, espontâneos e cheios de sorrisos, criando lembranças únicas não só para nós, mas para todos os nossos convidados.' },
@@ -37,8 +41,13 @@ const vozes = [
       </div>
     </div>
     <div class="triptych">
-      {fotos.map(([f, legenda], i) => (
-        <figure><Foto nome={f} loading={i === 0 ? 'eager' : 'lazy'} sizes="(min-width: 1024px) 480px, 280px" widths={[400, 560, 960]} /><figcaption class="vz-caption c-muted">{legenda}</figcaption></figure>
+      {fotos.map(({ f, v, legenda, alt }, i) => v ? (
+        <figure>
+          <video class="tri-video" data-autoplay src={`/videos/${v}.mp4`} poster={`/videos/${v}-poster.jpg`} muted loop playsinline preload="none" aria-label={alt}></video>
+          <figcaption class="vz-caption c-muted">{legenda}</figcaption>
+        </figure>
+      ) : (
+        <figure><Foto nome={f!} loading="lazy" sizes="(min-width: 1024px) 480px, 280px" widths={[400, 560, 960]} /><figcaption class="vz-caption c-muted">{legenda}</figcaption></figure>
       ))}
     </div>
   </section>

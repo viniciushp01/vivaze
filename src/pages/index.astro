@@ -13,7 +13,7 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
   name: 'Vivaze',
-  alternateName: 'CabinePhoto',
+  alternateName: 'Cabine Photo',
   description: 'Cabine de fotos, totem fotográfico, plataforma 360 e fotógrafo para eventos em Belo Horizonte e região.',
   telephone: site.telefoneLink,
   email: site.email,
@@ -28,16 +28,16 @@ const jsonLd = {
 >
   <!-- HERO: a legenda é o h1 da página; a frase de marca é parágrafo -->
   <section class="hero">
-    <div class="hero-photo"><Foto nome="hero" pos="center 16%" loading="eager" sizes="(min-width: 1024px) 42vw, 100vw" /></div>
+    <div class="hero-photo"><Foto nome="hero-home" pos="center 14%" loading="eager" sizes="(min-width: 1024px) 42vw, 100vw" /></div>
     <div class="hero-text">
-      <h1 class="vz-caption">Cabine de fotos, totem e vídeo 360 para eventos em BH e região</h1>
+      <h1 class="vz-caption">Cabine de fotos, Totem Fotográfico, Espelho Mágico, Lambe-Lambe Retrô e Vídeo 360 para eventos em BH e região</h1>
       <p class="vz-display">O momento é seu. A gente cuida de registrar.</p>
-      <p class="vz-sub">Há mais de 13 anos a gente leva cabine de fotos, totem e fotógrafo para casamentos, formaturas, festas de 15 anos e eventos de empresa em Minas Gerais.</p>
+      <p class="vz-sub">Há mais de 13 anos a gente leva cabine de fotos, totem para foto lembrança, paparazzo + varal de fotos e outros serviços para formaturas, casamentos, 15 anos, aniversários e eventos de empresas em Minas Gerais.</p>
       <div class="hero-actions">
         <a href="#orcamento" class="btn btn-cta btn-lg btn-block-m">Solicitar orçamento <Icon name="arrow-forward" /></a>
         <a href="/servicos" class="link-light">Conheça os serviços</a>
       </div>
-      <p class="vz-body-sm hero-note">Antes CabinePhoto. Agora, Vivaze.</p>
+      <p class="vz-body-sm hero-note">Antes Cabine Photo. Agora, Vivaze.</p>
     </div>
   </section>
 
@@ -58,7 +58,7 @@ const jsonLd = {
       </a>
       <div class="scroller bento-rest">
         {demais.map((s) => (
-          <a href={`/servicos/${s.slug}`} class:list={['tile', s.slug === 'paparazzi-varal' && 'tile--wide']}>
+          <a href={`/servicos/${s.slug}`} class:list={['tile', s.slug === 'paparazzo-varal' && 'tile--wide']}>
             <Foto nome={s.home.foto} pos={s.home.pos} sizes="(min-width: 1024px) 300px, 220px" widths={[300, 440, 600, 900]} />
             <span class="tag tag--photo">{s.familia}</span>
             <div class="tile-body"><h3 class="tile-title">{s.nomeLista}</h3><span class="vz-body-sm">{s.home.frase}</span></div>
@@ -114,6 +114,35 @@ const jsonLd = {
     </div>
   </section>
 
+  <!-- QUALIDADE DAS FOTOS -->
+  <section class="sec quality" id="qualidade">
+    <div class="quality-text">
+      <div class="sec-head">
+        <p class="vz-caption c-brand">Qualidade das fotos</p>
+        <h2 class="vz-h2 c-brand">Fotos que duram de verdade</h2>
+      </div>
+      <p class="vz-body-lg">A lembrança que o seu convidado leva para casa é impressa em papel fotográfico, com uma película que protege a imagem por muitos anos. Nem a água estraga: a gente fez o teste. Ative o som do vídeo para acompanhar.</p>
+      <ul class="checks">
+        <li class="vz-body"><Icon name="check" size={20} />Papel fotográfico com película de proteção</li>
+        <li class="vz-body"><Icon name="check" size={20} />Resistente à água</li>
+        <li class="vz-body"><Icon name="check" size={20} />Imagem protegida por muitos anos</li>
+        <li class="vz-body"><Icon name="check" size={20} />Impressa na hora, em cerca de 8 segundos</li>
+      </ul>
+      <a href="#orcamento" class="link-arrow">Solicitar orçamento <Icon name="arrow-forward" size={20} /></a>
+    </div>
+    <figure class="quality-video">
+      <div class="quality-frame">
+        <video data-autoplay src="/videos/qualidade-foto.mp4" poster="/videos/qualidade-foto-poster.jpg" width="360" height="640" muted loop playsinline preload="none" aria-label="Teste de resistência: fotos da cabine dentro de um prato recebem água e continuam intactas"></video>
+        <button type="button" class="sound-btn" data-som aria-pressed="false" data-on="false">
+          <svg class="ico-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16.5 9.5l5 5m0-5l-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <svg class="ico-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <span data-som-rotulo>Ativar som</span>
+        </button>
+      </div>
+      <figcaption class="vz-caption c-brand">Teste real: as fotos debaixo d'água</figcaption>
+    </figure>
+  </section>
+
   <!-- PROVA SOCIAL -->
   <section class="sec">
     <Depoimentos legenda="Quem já contratou" titulo="O que os clientes contam" />
@@ -134,7 +163,7 @@ const jsonLd = {
           <p class="vz-caption c-brand">Nossa história</p>
           <h2 class="vz-h2 c-brand">Mais de 13 anos de cabine de fotos em Minas</h2>
         </div>
-        <p class="vz-body-lg">Começamos como CabinePhoto, cuidando de festas, formaturas e eventos corporativos por toda Minas Gerais.</p>
+        <p class="vz-body-lg">Começamos como Cabine Photo, cuidando de festas, formaturas e eventos corporativos por toda Minas Gerais.</p>
         <p class="vz-body-lg">Hoje essa história ganha um novo nome, Vivaze, mas o motivo de tudo continua o mesmo: fazer cada pessoa se sentir importante.</p>
       </div>
     </div>

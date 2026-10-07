@@ -60,7 +60,7 @@ const msg = `Olá! Vim pelo site da Vivaze e quero saber mais sobre ${s.artigo}.
       <a href={site.instagramUrl} class="link-arrow">Ver mais no Instagram</a>
     </div>
     <div class="gallery">
-      {s.galeria.fotos.map((f, i) => <div><Foto nome={f} sizes={i === 0 ? '(min-width: 1024px) 588px, 100vw' : i === 1 ? '(min-width: 1024px) 588px, 100vw' : '(min-width: 1024px) 282px, 50vw'} /></div>)}
+      {s.galeria.fotos.map((f, i) => <div><Foto nome={f} pos={s.galeria.pos?.[i]} sizes={i === 0 ? '(min-width: 1024px) 588px, 100vw' : i === 1 ? '(min-width: 1024px) 588px, 100vw' : '(min-width: 1024px) 282px, 50vw'} /></div>)}
       {s.galeria.fotos.length < 4 && <div class="gallery-ph vz-body-sm">[Foto do serviço em ação — a enviar]</div>}
     </div>
   </section>

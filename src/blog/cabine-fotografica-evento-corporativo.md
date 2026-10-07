@@ -55,7 +55,7 @@ Uma cabine não substitui uma cultura de reconhecimento, claro. Mas um evento em
 2. **Escolha um lugar com fluxo.** Perto da entrada, do coffee ou do bar, a experiência atrai quem está chegando e não compete com o palco.
 3. **Tenha alguém cuidando das pessoas.** Um assistente que convida, orienta e ajuda com os acessórios faz quem é mais tímido entrar na foto.
 4. **Facilite o compartilhamento.** Link ou QR Code para baixar as fotos ainda durante o evento prolonga o alcance da ação.
-5. **Combine o formato com o objetivo.** Em ativações, totens e a [Cabine 360°](/servicos/cabine-360) chamam atenção; em eventos internos, a [Cabine Tradicional](/servicos/cabine-tradicional), a [VIP](/servicos/cabine-vip) e o [Paparazzi](/servicos/paparazzi-varal) registram a equipe junta; em feiras, os [totens compactos](/servicos/totem-foto-lembranca) lidam bem com muita gente passando.
+5. **Combine o formato com o objetivo.** Em ativações, totens e a [Cabine 360°](/servicos/cabine-360) chamam atenção; em eventos internos, a [Cabine Tradicional](/servicos/cabine-tradicional), a [VIP](/servicos/cabine-vip) e o [Paparazzo](/servicos/paparazzo-varal) registram a equipe junta; em feiras, os [totens compactos](/servicos/totem-led-foto-lembranca) lidam bem com muita gente passando.
 
 ## O que fica depois do evento
 

@@ -182,3 +182,55 @@ if (form) {
     campo('nome')?.focus();
   });
 }
+
+/* ---------- vídeos em loop (mudos): tocam só quando aparecem na tela ---------- */
+{
+  const videos = Array.from(document.querySelectorAll<HTMLVideoElement>('video[data-autoplay]'));
+  const conn = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+  const economizar = !!conn && (conn.saveData === true || /(^|-)2g$|3g/.test(conn.effectiveType ?? ''));
+  const reduzir = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Com "reduzir movimento" ou conexão econômica, o vídeo fica parado na imagem de capa.
+  if (videos.length && !reduzir && !economizar && 'IntersectionObserver' in window) {
+    const obs = new IntersectionObserver((entradas) => {
+      entradas.forEach((e) => {
+        const v = e.target as HTMLVideoElement;
+        if (e.isIntersecting) { v.play().catch(() => {}); } else { v.pause(); }
+      });
+    }, { threshold: 0.35 });
+    videos.forEach((v) => obs.observe(v));
+  }
+}
+
+/* ---------- vídeo com som opcional: começa mudo e o botão "Ativar som" liga o áudio ---------- */
+document.querySelectorAll<HTMLButtonElement>('[data-som]').forEach((btn) => {
+  const v = btn.parentElement?.querySelector<HTMLVideoElement>('video');
+  if (!v) return;
+  const rotulo = btn.querySelector<HTMLElement>('[data-som-rotulo]');
+  const reduzir = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const pintar = () => {
+    const ligado = !v.muted;
+    btn.setAttribute('aria-pressed', String(ligado));
+    btn.dataset.on = String(ligado);
+    if (rotulo) rotulo.textContent = ligado ? 'Desativar som' : 'Ativar som';
+  };
+  const silenciar = () => { v.muted = true; v.loop = true; pintar(); };
+  btn.addEventListener('click', () => {
+    if (v.muted) {
+      // Com som, o vídeo recomeça do início e toca uma vez só.
+      v.muted = false; v.loop = false; v.currentTime = 0;
+      v.play().catch(() => { silenciar(); });
+    } else {
+      silenciar();
+    }
+    pintar();
+  });
+  // Terminou com som: volta ao loop mudo (ou para na capa, com "reduzir movimento").
+  v.addEventListener('ended', () => { silenciar(); if (!reduzir) v.play().catch(() => {}); });
+  // Saiu da tela com som ligado: pausa, para o áudio não seguir tocando.
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver((entradas) => {
+      entradas.forEach((e) => { if (!e.isIntersecting && !v.muted) v.pause(); });
+    }, { threshold: 0.1 }).observe(v);
+  }
+  pintar();
+});

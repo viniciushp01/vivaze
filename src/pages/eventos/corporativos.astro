@@ -6,11 +6,15 @@ import Logos from '../../components/Logos.astro';
 import FechamentoEvento from '../../components/FechamentoEvento.astro';
 import { servico } from '../../data/servicos';
 
-const fotos = [['L23', 'Ativação de marca'], ['L13', 'Evento corporativo'], ['L21', 'Evento esportivo']];
+// Cada item é uma foto (f) ou um vídeo em loop (v). Os vídeos ficam em public/videos (.mp4 + -poster.jpg).
+const fotos: { f?: string; v?: string; legenda: string; alt?: string }[] = [
+  { v: 'corp-petrobras', legenda: 'Evento corporativo', alt: 'Convidados em um evento corporativo da Petrobras' },
+  { v: 'corp-cabine-patio', legenda: 'Ativação de marca', alt: 'Equipe de chapéu e camiseta da empresa posando dentro da Cabine Tradicional em uma ativação de marca' },
+];
 const formatos = [
   { n: '01', titulo: 'Ativações de marca', texto: 'Lançamentos, shoppings e pontos de venda. A foto sai com a identidade da sua marca e vai embora na mão do seu público.', combinam: ['totem-foto-divertida', 'cabine-360', 'espelho-magico'] },
-  { n: '02', titulo: 'Eventos internos', texto: 'Confraternizações, festas de fim de ano e convenções. Um momento para a equipe se ver junta e levar isso para casa.', combinam: ['cabine-tradicional', 'cabine-vip', 'paparazzi-varal'] },
-  { n: '03', titulo: 'Feiras e eventos esportivos', texto: 'Estandes e provas com muita gente passando. Estrutura compacta e fotos impressas em poucos segundos.', combinam: ['totem-foto-lembranca', 'totem-2-em-1'] },
+  { n: '02', titulo: 'Eventos internos', texto: 'Confraternizações, festas de fim de ano e convenções. Um momento para a equipe se ver junta e levar isso para casa.', combinam: ['cabine-tradicional', 'cabine-vip', 'paparazzo-varal'] },
+  { n: '03', titulo: 'Feiras e eventos esportivos', texto: 'Estandes e provas com muita gente passando. Estrutura compacta e fotos impressas em poucos segundos.', combinam: ['totem-led-foto-lembranca', 'totem-led-2-em-1'] },
 ];
 const incluido = [
   ['Foto com a identidade da marca', 'Moldura, cores e logo do seu evento em cada foto impressa e digital.'],
@@ -35,8 +39,13 @@ const incluido = [
       </div>
     </div>
     <div class="triptych">
-      {fotos.map(([f, legenda], i) => (
-        <figure><Foto nome={f} loading={i === 0 ? 'eager' : 'lazy'} sizes="(min-width: 1024px) 480px, 280px" widths={[400, 560, 960]} /><figcaption class="vz-caption c-muted">{legenda}</figcaption></figure>
+      {fotos.map(({ f, v, legenda, alt }, i) => v ? (
+        <figure>
+          <video class="tri-video" data-autoplay src={`/videos/${v}.mp4`} poster={`/videos/${v}-poster.jpg`} muted loop playsinline preload="none" aria-label={alt}></video>
+          <figcaption class="vz-caption c-muted">{legenda}</figcaption>
+        </figure>
+      ) : (
+        <figure><Foto nome={f!} loading="lazy" sizes="(min-width: 1024px) 480px, 280px" widths={[400, 560, 960]} /><figcaption class="vz-caption c-muted">{legenda}</figcaption></figure>
       ))}
     </div>
   </section>
