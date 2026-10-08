@@ -68,7 +68,7 @@ Em `npm run dev` o `/api/orcamento.php` não existe, então o envio mostra a men
 
 - Instagram: rótulo e link estão como `Instagram [@a definir]` em `src/data/site.ts`.
 - E-mail `contato@vivaze.com`: a confirmar.
-- Política de Privacidade: o link ainda aponta para `#`.
+- Política de Privacidade: página criada em `src/pages/politica-de-privacidade.astro` (rascunho; pedir revisão jurídica e confirmar razão social, CNPJ e e-mail de contato).
 - Lambe-Lambe Retrô: falta uma foto na galeria (aparece o espaço reservado).
 - Endereço da empresa: o dado estruturado `LocalBusiness` da Home está só com cidade e estado.
 - Algumas fotos têm resolução baixa e ficam suaves em telas grandes.

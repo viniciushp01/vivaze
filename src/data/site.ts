@@ -8,7 +8,7 @@ export const site = {
   regiao: 'Belo Horizonte e Região Metropolitana',
   instagramRotulo: 'Instagram [@a definir]',
   instagramUrl: '#', // a definir
-  privacidadeUrl: '#', // página de Política de Privacidade ainda não existe
+  privacidadeUrl: '/politica-de-privacidade',
   assinatura: 'Foto, vídeo e entretenimento para eventos. Você merece ser lembrado assim.',
 };
 
